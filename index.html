@@ -183,7 +183,8 @@ h1,h2,h3{color:var(--ink);line-height:1.05;font-weight:800;letter-spacing:-0.025
 .cmp{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 @media(max-width:680px){.cmp{grid-template-columns:1fr}}
 .cmp .col{border:1px solid var(--line-soft);border-radius:16px;padding:1.4rem;background:var(--surface)}
-.cmp .ua{box-shadow:inset 3px 0 0 var(--c-cyan)} .cmp .ru{box-shadow:inset 3px 0 0 var(--c-red)}
+.cmp .ua{background:color-mix(in oklch,var(--c-cyan) 5%,var(--surface));border-color:color-mix(in oklch,var(--c-cyan) 22%,var(--line-soft))}
+.cmp .ru{background:color-mix(in oklch,var(--c-red) 5%,var(--surface));border-color:color-mix(in oklch,var(--c-red) 22%,var(--line-soft))}
 .cmp h3{display:flex;align-items:center;gap:.6rem;margin:0 0 1rem}
 .flag{width:26px;height:17px;border-radius:3px;display:inline-block}
 .flag.ua{background:linear-gradient(180deg,#3b7fd6 50%,#e8c33a 50%)}
@@ -211,7 +212,7 @@ h1,h2,h3{color:var(--ink);line-height:1.05;font-weight:800;letter-spacing:-0.025
 .acc details[open] summary .cv::after{content:" — скрыть"}
 .acc .proof{padding:0 0 1.1rem 1.7rem;color:var(--ink-2);font-size:.9rem;line-height:1.62;text-wrap:pretty}
 .acc .proof b{color:var(--ink)}
-.acc .proof .ev{font-family:var(--mono);font-size:.78rem;color:var(--ink-3);display:block;margin-top:.5rem;border-left:2px solid var(--line);padding-left:.7rem}
+.acc .proof .ev{font-family:var(--mono);font-size:.78rem;color:var(--ink-3);display:block;margin-top:.5rem;padding:.5rem .7rem;background:color-mix(in oklch,var(--line) 28%,transparent);border-radius:8px}
 /* carousel */
 .car{display:flex;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;padding:.3rem 0 1rem;-webkit-overflow-scrolling:touch}
 .car::-webkit-scrollbar{height:6px}.car::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
@@ -440,7 +441,7 @@ html.intro-on .intro__skip{animation:introFade .5s ease 1.4s forwards}
 .fold[open] .fold__cue::before{content:"свернуть −"}
 .fold__body{padding:0 1.3rem 1.4rem}
 /* Пул-цитата */
-.pq{margin:1.3rem 0 0;border-left:3px solid var(--c-amber);background:color-mix(in oklch,var(--c-amber) 8%,var(--surface));border-radius:0 12px 12px 0;padding:1.1rem 1.3rem}
+.pq{margin:1.3rem 0 0;border:1px solid color-mix(in oklch,var(--c-amber) 30%,var(--line-soft));background:color-mix(in oklch,var(--c-amber) 8%,var(--surface));border-radius:14px;padding:1.15rem 1.35rem}
 .pq blockquote{margin:0;font-size:clamp(1.04rem,2.2vw,1.24rem);color:var(--ink);line-height:1.45;text-wrap:pretty}
 .pq blockquote::before{content:"«";color:var(--c-amber)}
 .pq blockquote::after{content:"»";color:var(--c-amber)}
@@ -531,7 +532,6 @@ html.intro-on .intro__skip{animation:introFade .5s ease 1.4s forwards}
 <!-- ЧТО ЭТО -->
 <section class="sec" id="chto">
   <div class="wrap">
-    <span class="kick">Предмет</span>
     <h2>Что такое «Радар.НФ» и кто им управляет</h2>
     <p class="lead">Запущено в августе 2023 года Общероссийским народным фронтом (ОНФ). Это «придворный» проект: управленческая вертикаль выходит прямо в Администрацию президента.</p>
     <div class="grid g2">
@@ -561,7 +561,6 @@ html.intro-on .intro__skip{animation:introFade .5s ease 1.4s forwards}
 <!-- СЛОМАЛОСЬ -->
 <section class="sec" id="slom">
   <div class="wrap">
-    <span class="kick">Главное</span>
     <h2>Сломалось: ~5 часов невозможно отправить сообщение</h2>
     <p class="lead">30 июня 2026 года приложение в произвольный момент дня отказывалось принимать сигнал. Подтверждено перехватом трафика (19 из 19 попыток отклонены) и записью экрана реального устройства в 15:01 — спустя ~5 часов после первых отказов в 10:19. <b>Штатно отправить новый отчёт нам удалось лишь спустя сутки</b> — только тогда блок снялся.</p>
     <div class="grid g2">
@@ -650,7 +649,6 @@ captcha: app.pomosch.onf.ru/captcha
 <!-- ЗАБРОШЕНО -->
 <section class="sec" id="zabr">
   <div class="wrap">
-    <span class="kick">Доказательство</span>
     <h2>Заброшено как минимум с сентября 2025</h2>
     <p class="lead">Счётчик скачиваний накачивали весь 2025-й — но и он, похоже, встал: рост прекратился вместе с пиаром, последняя содержательная новость о приложении датируется ноябрём 2025. <b style="color:var(--c-red)">А сам клиент не развивается ещё дольше — с осени 2024.</b></p>
     <div class="grid g2">
@@ -723,7 +721,6 @@ captcha: app.pomosch.onf.ru/captcha
 <section class="sec">
   <div class="wrap">
     <picture class="imgpic"><source srcset="kamishev.webp" type="image/webp"><img class="kam-bg" src="kamishev.jpg" alt="Михаил Камышев" loading="lazy" decoding="async" width="440" height="293"/></picture>
-    <span class="kick">Расхождения</span>
     <h2>Слова руководителя проекта против фактов</h2>
     <p class="lead">Разбор интервью (эфир <a class="srclink" href="https://smotrim.ru/video/2702838">«Вечер Z» на smotrim.ru</a>, <b>23 октября 2023 года</b>) и публичных заявлений Михаила Камышева.</p>
     <table class="tbl">
@@ -772,7 +769,6 @@ captcha: app.pomosch.onf.ru/captcha
 <!-- НЕТ ОТЧЁТНОСТИ -->
 <section class="sec" id="otchet">
   <div class="wrap">
-    <span class="kick">Отчётность</span>
     <h2>Системной отчётности о работе приложения не существует</h2>
     <p class="lead">У «оборонного» по заявке инструмента <b>нет ни ежедневной, ни еженедельной, ни месячной, ни квартальной, ни даже годовой</b> регулярной отчётности с методикой и верифицируемыми числами. Есть только разрозненные, несистемные заявления в СМИ по инфоповодам — с противоречивыми цифрами. Вот они целиком:</p>
     <table class="tbl">
@@ -830,7 +826,6 @@ captcha: app.pomosch.onf.ru/captcha
 <!-- УКРАИНА VS РОССИЯ -->
 <section class="sec" id="cmp">
   <div class="wrap">
-    <span class="kick">Сравнение</span>
     <h2>Как у соседа работает «народный сенсор» — и как у нас</h2>
     <p class="lead">Идея, когда тысячи людей становятся «глазами и ушами» ПВО, рабочая — но только при замкнутой петле, скорости и плотности. Украинский «єППО» это показывает. Российский «Радар.НФ» заявляет массовость, но петля разомкнута, а клиент заморожен.</p>
     <div class="cmp">
@@ -949,7 +944,6 @@ captcha: app.pomosch.onf.ru/captcha
 <!-- МЕТОДЫ -->
 <section class="sec" id="metody">
   <div class="wrap">
-    <span class="kick">Прозрачность</span>
     <h2>Наши методы поиска и подтверждения</h2>
     <div class="facts">
       <div class="fact"><h3>Статика</h3><p>Разбор APK: разрешения, вшитые сертификаты и их срок, подпись, тулчейн (AGP/git), эндпоинты и строки кода.</p></div>
