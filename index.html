@@ -276,6 +276,12 @@ footer{border-top:1px solid var(--line-soft);padding:clamp(2.4rem,6vw,4rem) 0 3r
 .cta{display:flex;align-items:center;gap:1rem;border:1px solid var(--line);border-radius:16px;padding:1.2rem 1.4rem;background:var(--surface);text-decoration:none;color:var(--ink);transition:border-color .2s;cursor:pointer}
 .cta:hover{border-color:var(--c-teal)}.cta .logo{width:34px;height:34px}
 .cta .arrow{margin-left:auto;font-family:var(--mono);color:var(--c-teal)}
+/* Мобильный: метка-стрелка не наезжает на правый край — переносим её под текст */
+@media(max-width:680px){
+  .cta{flex-wrap:wrap;padding:1.1rem 1.2rem}
+  .cta>div{flex:1 1 0;min-width:0}
+  .cta .arrow{flex-basis:100%;margin:.35rem 0 0 calc(34px + 1rem)}
+}
 .hash{display:flex;flex-wrap:wrap;gap:.4rem .5rem;margin-top:1.4rem}
 .hash a{font-family:var(--mono);font-size:.74rem;color:var(--ink-3);text-decoration:none}
 .hash a:hover{color:var(--c-teal)}
