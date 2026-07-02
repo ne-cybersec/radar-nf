@@ -372,13 +372,9 @@ html.intro-on .intro__skip{animation:introFade .5s ease 1.4s forwards}
 .sh{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--sans);font-size:.86rem;font-weight:600;color:var(--ink);text-decoration:none;padding:.55rem .9rem;border-radius:10px;border:1px solid var(--line);background:var(--surface);cursor:pointer;transition:transform .14s var(--ease-quint),border-color .2s,background .2s}
 .sh:hover{border-color:var(--ink-3)}
 .sh:active{transform:scale(0.96)}
-.sh__i{display:grid;place-content:center;width:20px;height:20px;border-radius:5px;font-size:.78rem;font-weight:700;color:#fff;flex:none}
-.sh--tg .sh__i{background:#2aabee}
-.sh--wa .sh__i{background:#25d366}
-.sh--vk .sh__i{background:#0077ff}
-.sh--x .sh__i{background:#000;color:#fff}
-.sh--ok .sh__i{background:#ee8208;font-size:.58rem}
-.sh--copy .sh__i{background:var(--surface-2);color:var(--ink-2)}
+/* Иконки шеринга — однотонные и одноразмерные */
+.sh__i{display:grid;place-content:center;width:22px;height:22px;border-radius:6px;font-size:.72rem;font-weight:700;flex:none;background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line)}
+.sh--ok .sh__i{font-size:.6rem}
 .sh--copy.done{border-color:var(--c-teal);color:var(--c-teal)}
 @media(pointer:coarse){.sh{padding-block:.7rem}}
 /* Иконка бренда: логотип ne_cybersec (башни Кремля) вместо conic-градиента */
@@ -440,12 +436,12 @@ html.intro-on .intro__skip{animation:introFade .5s ease 1.4s forwards}
 
 <header class="topbar">
   <div class="wrap">
-    <a class="brand" href="https://t.me/ne_cybersec" target="_blank" rel="noopener"><span class="logo"></span>ne_cybersec <small>· расследование</small></a>
+    <a class="brand" href="https://t.me/ne_cybersec" target="_blank" rel="noopener"><span class="logo"></span>ne_cybersec <small>🔬 Радар.НФ</small></a>
     <div class="topnav-wrap">
       <nav class="topnav" id="topnav" aria-label="Разделы статьи">
-        <a href="#ugroza">Угроза</a><a href="#chto">Кто стоит</a><a href="#slom">Сломалось</a>
-        <a href="#perehvat">Перехват</a><a href="#zabr">Заброшено</a><a href="#cmp">Украина/РФ</a>
-        <a href="#tel112">112</a><a href="#smi">Хроника</a><a href="#otchet">Отчётность</a><a href="#sources">Источники</a>
+        <a href="#chto">О приложении</a><a href="#slom">Сбой отправки</a><a href="#perehvat">Перехват трафика</a>
+        <a href="#zabr">Заброшено</a><a href="#smi">Пиар-хроника</a><a href="#otchet">Отчётность</a><a href="#cmp">Украина / РФ</a>
+        <a href="#tel112">Звонок 112</a><a href="#metody">Методы</a><a href="#sources">Источники</a><a href="#ugroza">Угроза БПЛА</a>
       </nav>
       <button class="topnav-cue" id="topnav-cue" type="button" aria-label="Прокрутить меню вправо" tabindex="-1">›</button>
     </div>
@@ -473,71 +469,6 @@ html.intro-on .intro__skip{animation:introFade .5s ease 1.4s forwards}
   </div>
 </section>
 
-<!-- УГРОЗА 2026 -->
-<section class="sec" id="ugroza">
-  <div class="wrap">
-    <span class="kick">Основной контекст · именно в 2026 году</span>
-    <h2>Насколько остра проблема ударов БПЛА по России сейчас</h2>
-    <p class="lead">Это не фон, а главная угроза тыловым регионам прямо в этом году. Тем показательнее, что единственный гражданский инструмент такого рода не работает.</p>
-    <div class="grid g3">
-      <div class="card" style="text-align:center"><div class="stat__num red mono" style="font-size:2.6rem">39 000+</div><p>украинских дронов перехвачено и уничтожено над <b>51 регионом</b> РФ с января 2026 года</p></div>
-      <div class="card" style="text-align:center"><div class="stat__num red mono" style="font-size:2.6rem">~223</div><p>дрона в сутки в среднем сбивают силы ПВО в 2026-м (~6 000 в месяц)</p></div>
-      <div class="card" style="text-align:center"><div class="stat__num red mono" style="font-size:2.6rem">660</div><p>дронов за ночь 26.06.2026 — рекорд года; 17.05 — 556, 18.06 — 555</p></div>
-    </div>
-    <div class="grid g2" style="margin-top:1rem">
-      <div class="card">
-        <h3>География удара — это вся европейская часть</h3>
-        <p>Сильнее всего страдают <b>Белгородская, Курская, Брянская</b> области и Крым, а также Краснодарский край, <b>Московская, Тульская, Орловская</b> области. За неполный июнь 2026 — уже ~9,7 тыс. сбитых.</p>
-        <p>С января 2025 пострадал <b>21 из 38</b> крупных НПЗ → топливный кризис и дефицит бензина. Пострадавшие фиксировались в 34% атак дронов, разрушения — в 85%.</p>
-      </div>
-      <div class="chartbox">
-        <h3 style="margin:.2rem 0;font-size:1rem">Из чего складывались военные инциденты 2025</h3>
-        <div class="cap">Атаки дронов — почти половина всех происшествий на территории РФ.</div>
-        <canvas id="cDon" height="210"></canvas>
-      </div>
-    </div>
-    <div class="srcmini">Источники: РИА Новости (26.06.2026), URA.news / Крым-news (39 тыс. за 2026), ТАСС, «Новая газета Европа», The Moscow Times.</div>
-
-    <!-- УСПЕШНЫЕ УДАРЫ ПО НПЗ 2026 (свёрнуто) -->
-    <details class="fold">
-      <summary><span class="fold__t">Успешные удары по НПЗ России · 2026</span><span class="fold__hint">итоги топливного кризиса и лента крупнейших поражений</span><span class="fold__cue"></span></summary>
-      <div class="fold__body">
-    <p class="lead" style="margin:1.1rem 0 1.2rem">Обратная сторона той же войны дронов: к середине 2026 года удары по нефтепереработке приняли системный характер и породили топливный кризис. Ниже — итоги и лента крупнейших поражений. Листайте вбок →</p>
-    <div class="grid g3">
-      <div class="card" style="text-align:center"><div class="stat__num red mono" style="font-size:2.6rem">25&nbsp;/&nbsp;37</div><p>крупных НПЗ <b>поражено</b> ударами дронов (к июню 2026); к концу мая в европейской части не осталось незатронутых.</p></div>
-      <div class="card" style="text-align:center"><div class="stat__num red mono" style="font-size:2.6rem">~40%</div><p>мощностей <b>первичной переработки</b> выведено из строя или простаивает — суммарно <b>&gt;83 млн т/год</b>.</p></div>
-      <div class="card" style="text-align:center"><div class="stat__num amber mono" style="font-size:2.6rem">4,58</div><p>млн барр./сут — переработка нефти в РФ <b>упала до минимума за 16 лет</b>.</p></div>
-    </div>
-    <div class="grid g2" style="margin-top:1rem">
-      <div class="card" style="text-align:center"><div class="stat__num amber mono" style="font-size:2.2rem">+28…34% · +43%</div><p>рост розничных цен на <b>бензин</b> и <b>дизель</b> за 2026 год (АИ-95 / ДТ).</p></div>
-      <div class="card" style="text-align:center"><div class="stat__num teal mono" style="font-size:2.2rem">25 регионов</div><p>охвачены <b>дефицитом топлива</b> и лимитами продаж на АЗС.</p></div>
-    </div>
-
-    <div class="carwrap" style="margin-top:1.4rem">
-      <button class="caro prev" data-t="carNPZ" aria-label="назад">←</button>
-      <button class="caro next" data-t="carNPZ" aria-label="вперёд">→</button>
-      <div class="car" id="carNPZ">
-        <div class="npz"><span class="npz__st stop">остановлен</span><div class="npz__d">11 фев 2026</div><div class="npz__name">Волгоградский НПЗ</div><div class="npz__loc">ЛУКОЙЛ · Волгоград</div><div class="npz__cap">~15,7<span>млн т/год переработки</span></div></div>
-        <div class="npz"><span class="npz__st stop">остановлен</span><div class="npz__d">15 мая 2026</div><div class="npz__name">Рязанский НПЗ</div><div class="npz__loc">Роснефть · Рязань</div><div class="npz__cap">~17,0<span>млн т/год переработки</span></div></div>
-        <div class="npz"><span class="npz__st hit">повреждён</span><div class="npz__d">19 мая 2026</div><div class="npz__name">Славнефть-ЯНОС</div><div class="npz__loc">Ярославль</div><div class="npz__cap">~15,0<span>млн т/год переработки</span></div></div>
-        <div class="npz"><span class="npz__st stop">остановлен</span><div class="npz__d">май 2026</div><div class="npz__name">«Кинеф»</div><div class="npz__loc">Сургутнефтегаз · Кириши, Ленобласть</div><div class="npz__cap">~20,1<span>млн т/год переработки</span></div></div>
-        <div class="npz"><span class="npz__st hit">частично</span><div class="npz__d">май 2026</div><div class="npz__name">ЛУКОЙЛ-Нижний</div><div class="npz__loc">Кстово, Нижегородская обл.</div><div class="npz__cap">~17,0<span>млн т/год переработки</span></div></div>
-        <div class="npz"><span class="npz__st hit">повреждён</span><div class="npz__d">май 2026</div><div class="npz__name">ЛУКОЙЛ-Пермь</div><div class="npz__loc">Пермнефтеоргсинтез · Пермь</div><div class="npz__cap">~13,1<span>млн т/год переработки</span></div></div>
-        <div class="npz"><span class="npz__st stop">остановлен</span><div class="npz__d">18 июн 2026</div><div class="npz__name">Московский НПЗ</div><div class="npz__loc">Газпром нефть · Москва, Капотня</div><div class="npz__cap">~12,2<span>млн т/год · не запустят до конца года</span></div></div>
-        <div class="npz"><span class="npz__st hit">10+ ударов</span><div class="npz__d">2026</div><div class="npz__name">Туапсинский НПЗ</div><div class="npz__loc">Роснефть · Туапсе</div><div class="npz__cap">~12,0<span>млн т/год переработки</span></div></div>
-        <div class="npz"><span class="npz__st hit">15+ ударов</span><div class="npz__d">2026</div><div class="npz__name">Саратовский НПЗ</div><div class="npz__loc">Роснефть · Саратов</div><div class="npz__cap">~7,0<span>млн т/год переработки</span></div></div>
-        <div class="npz"><span class="npz__st hit">10+ ударов</span><div class="npz__d">2026</div><div class="npz__name">Сызранский НПЗ</div><div class="npz__loc">Роснефть · Сызрань, Самарская обл.</div><div class="npz__cap">~8,5<span>млн т/год переработки</span></div></div>
-        <div class="npz"><span class="npz__st hit">10+ ударов</span><div class="npz__d">2026</div><div class="npz__name">Афипский НПЗ</div><div class="npz__loc">Краснодарский край</div><div class="npz__cap">~9,0<span>млн т/год переработки</span></div></div>
-        <div class="npz"><span class="npz__st hit">10+ ударов</span><div class="npz__d">2026</div><div class="npz__name">Ильский НПЗ</div><div class="npz__loc">Краснодарский край</div><div class="npz__cap">~6,6<span>млн т/год переработки</span></div></div>
-      </div>
-    </div>
-    <p class="carhint">Показатель — проектная <b>первичная переработка нефти</b>, млн т/год (открытые данные): именно её приводят источники. Прямой выпуск бензина обычно 15–30% от переработки — точной разбивки по заводам публично нет, поэтому дана проверяемая величина мощности. Список — крупнейшие подтверждённые поражения, не исчерпывающий.</p>
-    <div class="srcmini">Источники: <a class="srclink" href="https://meduza.io/feature/2026/06/29/ukrainskie-drony-atakovali-prakticheski-vse-krupneyshie-npz-v-rossii-kakie-predpriyatiya-esche-ne-okazalis-pod-udarom">Meduza — карта поражённых НПЗ (29.06.2026)</a>, <a class="srclink" href="https://www.themoscowtimes.com/2026/05/20/drone-strikes-force-central-russian-refineries-to-halt-or-cut-output-reuters-a92805">Reuters / The Moscow Times</a>, <a class="srclink" href="https://epravda.com.ua/rus/weeklycharts/udary-po-neftepererabotke-rossii-deficit-topliva-i-toplivnyy-krizis-v-2026-godu-822742/">Экономическая правда — топливный кризис 2026</a>. Мощности — проектная первичная переработка по открытым данным компаний.</div>
-      </div>
-    </details>
-  </div>
-</section>
-
 <!-- ЧТО ЭТО -->
 <section class="sec" id="chto">
   <div class="wrap">
@@ -547,7 +478,7 @@ html.intro-on .intro__skip{animation:introFade .5s ease 1.4s forwards}
     <div class="grid g2">
       <div class="card">
         <h3>Назначение (по заявлению создателей)</h3>
-        <p>Гражданин наводит телефон на дрон, выбирает тип, фотографирует, жмёт «Сообщить»; сигнал якобы идёт «ответственным сотрудникам госвласти».</p>
+        <p style="font-size:clamp(1.1rem,2.1vw,1.35rem);line-height:1.45;color:var(--ink)">Гражданин <b>наводит телефон на дрон</b>, выбирает тип, <b>фотографирует</b> и жмёт <b>«Сообщить»</b> — сигнал якобы идёт «ответственным сотрудникам госвласти».</p>
         <p>Вторая, прямо декларируемая цель — <b>объединение граждан и их соучастие</b>: руководитель проекта в эфире называл целью «повышение сопричастности граждан, возрождение патриотизма», а в сюжетах звучало «объявляем мобилизацию смартфонов». <a class="srclink" href="https://onf.ru/radar">Официальный сайт: onf.ru/radar</a></p>
       </div>
       <div class="card">
@@ -573,7 +504,7 @@ html.intro-on .intro__skip{animation:introFade .5s ease 1.4s forwards}
   <div class="wrap">
     <span class="kick">Главное</span>
     <h2>Сломалось: ~5 часов невозможно отправить сообщение</h2>
-    <p class="lead">30 июня 2026 года приложение в произвольный момент дня отказывалось принимать сигнал. Подтверждено перехватом трафика (19 из 19 попыток отклонены) и записью экрана реального устройства в 15:01 — спустя ~5 часов после первых отказов в 10:19.</p>
+    <p class="lead">30 июня 2026 года приложение в произвольный момент дня отказывалось принимать сигнал. Подтверждено перехватом трафика (19 из 19 попыток отклонены) и записью экрана реального устройства в 15:01 — спустя ~5 часов после первых отказов в 10:19. <b>Штатно отправить новый отчёт нам удалось лишь спустя сутки</b> — только тогда блок снялся.</p>
     <div class="grid g2">
       <div class="card">
         <h3>Почему это критично</h3>
@@ -662,7 +593,7 @@ captcha: app.pomosch.onf.ru/captcha
   <div class="wrap">
     <span class="kick">Доказательство</span>
     <h2>Заброшено как минимум с сентября 2025</h2>
-    <p class="lead">Счётчик скачиваний накачивали весь 2025-й — но и он, похоже, встал: рост прекратился вместе с пиаром, последняя содержательная новость о приложении датируется ноябрём 2025. А сам клиент не развивается ещё дольше — с осени 2024.</p>
+    <p class="lead">Счётчик скачиваний накачивали весь 2025-й — но и он, похоже, встал: рост прекратился вместе с пиаром, последняя содержательная новость о приложении датируется ноябрём 2025. <b style="color:var(--c-red)">А сам клиент не развивается ещё дольше — с осени 2024.</b></p>
     <div class="grid g2">
       <div class="chartbox">
         <h3 style="margin:.2rem 0;font-size:1rem">Скачивания при замороженном клиенте</h3>
@@ -827,6 +758,16 @@ captcha: app.pomosch.onf.ru/captcha
   </div>
 </section>
 
+<!-- НЕТ MAX (перенесено после «Белого списка») -->
+<section class="sec">
+  <div class="wrap">
+      <div class="figrow card">
+        <img class="shot" src="onf_screan_without_max.png" alt="Блок ссылок на сайте Радар.НФ — без MAX"/>
+        <div><h3 style="margin:0 0 .5rem">На сайте нет MAX — только Telegram</h3><p>Показательная мелочь: будь проект живым, ссылку на Telegram-бот на сайте «Радар.НФ» давно <b>заменили бы на MAX</b> — или хотя бы добавили MAX. Этого нет: к собственной госэкосистеме проект так и не подключили.</p><div class="figcap">Блок «скачать с сайта» на onf.ru/radar: RuStore · App Store · AppGallery · Telegram. MAX отсутствует.</div></div>
+      </div>
+  </div>
+</section>
+
 <!-- УКРАИНА VS РОССИЯ -->
 <section class="sec" id="cmp">
   <div class="wrap">
@@ -912,10 +853,6 @@ captcha: app.pomosch.onf.ru/captcha
       <p style="margin-top:1rem">И ещё один узел, который многое объясняет. Из-за блокировок у большинства активных пользователей сегодня стоит <b>VPN</b>, а весь курс выстраивался под мессенджер <b>MAX</b> (предустановка, белый список) и «суверенный интернет». За этим внутриполитическим курсом — и за самим Народным фронтом — стоит <b>один и тот же блок Администрации президента</b> (куратор — С. Кириенко). Возникает двойной парадокс: с одной стороны, блокировками граждан загнали в тень (VPN) и растратили их доверие к государству; с другой — из-за тех же блокировок и удушения Telegram сейчас затруднительно даже написать в ОНФ через его же Telegram-бот «Кибердружина».</p>
       <div class="honest"><b>Честно оговоримся:</b> утверждения промаркированы по надёжности — факт / вывод / оценка. «Разработано с Минобороны» и трактовка App Store как «молдавской прокладки» — наши обоснованные выводы, а не документ с печатью. Оценочные суждения (про эфир и потенциал провинции) — позиция редакции, и мы это обозначаем.</div>
     </div>
-    <div class="figrow card" style="margin-top:1rem">
-      <img class="shot" src="onf_screan_without_max.png" alt="Блок ссылок на сайте Радар.НФ — без MAX"/>
-      <div><h3 style="margin:0 0 .5rem">На сайте нет MAX — только Telegram</h3><p>Показательная мелочь: будь проект живым, ссылку на Telegram-бот на сайте «Радар.НФ» давно <b>заменили бы на MAX</b> — или хотя бы добавили MAX. Этого нет: к собственной госэкосистеме проект так и не подключили.</p><div class="figcap">Блок «скачать с сайта» на onf.ru/radar: RuStore · App Store · AppGallery · Telegram. MAX отсутствует.</div></div>
-    </div>
     <div class="verdict">
       <span class="kick">Главный вывод</span>
       <h2>Единственное общенациональное приложение, которым гражданин РФ может сообщить о БПЛА для его уничтожения, — заброшено.</h2>
@@ -936,7 +873,7 @@ captcha: app.pomosch.onf.ru/captcha
         <a class="cta" href="https://t.me/ne_cybersec?direct"><span class="logo"></span><div><b style="color:var(--ink)">Написать нам — обратная связь</b><div style="font-size:.84rem;color:var(--ink-3)">факты · скриншоты · замечания</div></div><span class="arrow">Написать →</span></a>
       </div>
       <div class="share" id="share">
-        <div class="share__lbl">Поделиться в один клик:</div>
+        <div class="share__lbl">Поделитесь расследованием в один клик:</div>
         <div class="share__row">
           <a class="sh sh--tg" data-sh="tg" href="#" target="_blank" rel="noopener" aria-label="Telegram"><span class="sh__i">✈</span>Telegram</a>
           <a class="sh sh--wa" data-sh="wa" href="#" target="_blank" rel="noopener" aria-label="WhatsApp"><span class="sh__i">✆</span>WhatsApp</a>
@@ -1084,6 +1021,72 @@ whisper large-v3-turbo <span class="ev"># офлайн-расшифровка в
   </div>
 </section>
 
+<!-- УГРОЗА 2026 -->
+<section class="sec" id="ugroza">
+  <div class="wrap">
+    <span class="kick">Основной контекст · именно в 2026 году</span>
+    <h2>Насколько остра проблема ударов БПЛА по России сейчас</h2>
+    <p class="lead">Это не фон, а главная угроза тыловым регионам прямо в этом году. Тем показательнее, что единственный гражданский инструмент такого рода не работает.</p>
+    <div class="grid g3">
+      <div class="card" style="text-align:center"><div class="stat__num red mono" style="font-size:2.6rem">39 000+</div><p>украинских дронов перехвачено и уничтожено над <b>51 регионом</b> РФ с января 2026 года</p></div>
+      <div class="card" style="text-align:center"><div class="stat__num red mono" style="font-size:2.6rem">~223</div><p>дрона в сутки в среднем сбивают силы ПВО в 2026-м (~6 000 в месяц)</p></div>
+      <div class="card" style="text-align:center"><div class="stat__num red mono" style="font-size:2.6rem">660</div><p>дронов за ночь 26.06.2026 — рекорд года; 17.05 — 556, 18.06 — 555</p></div>
+    </div>
+    <div class="grid g2" style="margin-top:1rem">
+      <div class="card">
+        <h3>География удара — это вся европейская часть</h3>
+        <p>Сильнее всего страдают <b>Белгородская, Курская, Брянская</b> области и Крым, а также Краснодарский край, <b>Московская, Тульская, Орловская</b> области. За неполный июнь 2026 — уже ~9,7 тыс. сбитых.</p>
+        <p>С января 2025 пострадал <b>21 из 38</b> крупных НПЗ → топливный кризис и дефицит бензина. Пострадавшие фиксировались в 34% атак дронов, разрушения — в 85%.</p>
+      </div>
+      <div class="chartbox">
+        <h3 style="margin:.2rem 0;font-size:1rem">Из чего складывались военные инциденты 2025</h3>
+        <div class="cap">Атаки дронов — почти половина всех происшествий на территории РФ.</div>
+        <canvas id="cDon" height="210"></canvas>
+      </div>
+    </div>
+    <div class="srcmini">Источники: РИА Новости (26.06.2026), URA.news / Крым-news (39 тыс. за 2026), ТАСС, «Новая газета Европа», The Moscow Times.</div>
+
+    <!-- УСПЕШНЫЕ УДАРЫ ПО НПЗ 2026 (свёрнуто) -->
+    <details class="fold">
+      <summary><span class="fold__t">Успешные удары по НПЗ России · 2026</span><span class="fold__hint">итоги топливного кризиса и лента крупнейших поражений</span><span class="fold__cue"></span></summary>
+      <div class="fold__body">
+    <p class="lead" style="margin:1.1rem 0 1.2rem">Обратная сторона той же войны дронов: к середине 2026 года удары по нефтепереработке приняли системный характер и породили топливный кризис. Ниже — итоги и лента крупнейших поражений. Листайте вбок →</p>
+    <div class="grid g3">
+      <div class="card" style="text-align:center"><div class="stat__num red mono" style="font-size:2.6rem">25&nbsp;/&nbsp;37</div><p>крупных НПЗ <b>поражено</b> ударами дронов (к июню 2026); к концу мая в европейской части не осталось незатронутых.</p></div>
+      <div class="card" style="text-align:center"><div class="stat__num red mono" style="font-size:2.6rem">~40%</div><p>мощностей <b>первичной переработки</b> выведено из строя или простаивает — суммарно <b>&gt;83 млн т/год</b>.</p></div>
+      <div class="card" style="text-align:center"><div class="stat__num amber mono" style="font-size:2.6rem">4,58</div><p>млн барр./сут — переработка нефти в РФ <b>упала до минимума за 16 лет</b>.</p></div>
+    </div>
+    <div class="grid g2" style="margin-top:1rem">
+      <div class="card" style="text-align:center"><div class="stat__num amber mono" style="font-size:2.2rem">+28…34% · +43%</div><p>рост розничных цен на <b>бензин</b> и <b>дизель</b> за 2026 год (АИ-95 / ДТ).</p></div>
+      <div class="card" style="text-align:center"><div class="stat__num teal mono" style="font-size:2.2rem">25 регионов</div><p>охвачены <b>дефицитом топлива</b> и лимитами продаж на АЗС.</p></div>
+    </div>
+
+    <div class="carwrap" style="margin-top:1.4rem">
+      <button class="caro prev" data-t="carNPZ" aria-label="назад">←</button>
+      <button class="caro next" data-t="carNPZ" aria-label="вперёд">→</button>
+      <div class="car" id="carNPZ">
+        <div class="npz"><span class="npz__st stop">остановлен</span><div class="npz__d">11 фев 2026</div><div class="npz__name">Волгоградский НПЗ</div><div class="npz__loc">ЛУКОЙЛ · Волгоград</div><div class="npz__cap">~15,7<span>млн т/год переработки</span></div></div>
+        <div class="npz"><span class="npz__st stop">остановлен</span><div class="npz__d">15 мая 2026</div><div class="npz__name">Рязанский НПЗ</div><div class="npz__loc">Роснефть · Рязань</div><div class="npz__cap">~17,0<span>млн т/год переработки</span></div></div>
+        <div class="npz"><span class="npz__st hit">повреждён</span><div class="npz__d">19 мая 2026</div><div class="npz__name">Славнефть-ЯНОС</div><div class="npz__loc">Ярославль</div><div class="npz__cap">~15,0<span>млн т/год переработки</span></div></div>
+        <div class="npz"><span class="npz__st stop">остановлен</span><div class="npz__d">май 2026</div><div class="npz__name">«Кинеф»</div><div class="npz__loc">Сургутнефтегаз · Кириши, Ленобласть</div><div class="npz__cap">~20,1<span>млн т/год переработки</span></div></div>
+        <div class="npz"><span class="npz__st hit">частично</span><div class="npz__d">май 2026</div><div class="npz__name">ЛУКОЙЛ-Нижний</div><div class="npz__loc">Кстово, Нижегородская обл.</div><div class="npz__cap">~17,0<span>млн т/год переработки</span></div></div>
+        <div class="npz"><span class="npz__st hit">повреждён</span><div class="npz__d">май 2026</div><div class="npz__name">ЛУКОЙЛ-Пермь</div><div class="npz__loc">Пермнефтеоргсинтез · Пермь</div><div class="npz__cap">~13,1<span>млн т/год переработки</span></div></div>
+        <div class="npz"><span class="npz__st stop">остановлен</span><div class="npz__d">18 июн 2026</div><div class="npz__name">Московский НПЗ</div><div class="npz__loc">Газпром нефть · Москва, Капотня</div><div class="npz__cap">~12,2<span>млн т/год · не запустят до конца года</span></div></div>
+        <div class="npz"><span class="npz__st hit">10+ ударов</span><div class="npz__d">2026</div><div class="npz__name">Туапсинский НПЗ</div><div class="npz__loc">Роснефть · Туапсе</div><div class="npz__cap">~12,0<span>млн т/год переработки</span></div></div>
+        <div class="npz"><span class="npz__st hit">15+ ударов</span><div class="npz__d">2026</div><div class="npz__name">Саратовский НПЗ</div><div class="npz__loc">Роснефть · Саратов</div><div class="npz__cap">~7,0<span>млн т/год переработки</span></div></div>
+        <div class="npz"><span class="npz__st hit">10+ ударов</span><div class="npz__d">2026</div><div class="npz__name">Сызранский НПЗ</div><div class="npz__loc">Роснефть · Сызрань, Самарская обл.</div><div class="npz__cap">~8,5<span>млн т/год переработки</span></div></div>
+        <div class="npz"><span class="npz__st hit">10+ ударов</span><div class="npz__d">2026</div><div class="npz__name">Афипский НПЗ</div><div class="npz__loc">Краснодарский край</div><div class="npz__cap">~9,0<span>млн т/год переработки</span></div></div>
+        <div class="npz"><span class="npz__st hit">10+ ударов</span><div class="npz__d">2026</div><div class="npz__name">Ильский НПЗ</div><div class="npz__loc">Краснодарский край</div><div class="npz__cap">~6,6<span>млн т/год переработки</span></div></div>
+      </div>
+    </div>
+    <p class="carhint">Показатель — проектная <b>первичная переработка нефти</b>, млн т/год (открытые данные): именно её приводят источники. Прямой выпуск бензина обычно 15–30% от переработки — точной разбивки по заводам публично нет, поэтому дана проверяемая величина мощности. Список — крупнейшие подтверждённые поражения, не исчерпывающий.</p>
+    <div class="srcmini">Источники: <a class="srclink" href="https://meduza.io/feature/2026/06/29/ukrainskie-drony-atakovali-prakticheski-vse-krupneyshie-npz-v-rossii-kakie-predpriyatiya-esche-ne-okazalis-pod-udarom">Meduza — карта поражённых НПЗ (29.06.2026)</a>, <a class="srclink" href="https://www.themoscowtimes.com/2026/05/20/drone-strikes-force-central-russian-refineries-to-halt-or-cut-output-reuters-a92805">Reuters / The Moscow Times</a>, <a class="srclink" href="https://epravda.com.ua/rus/weeklycharts/udary-po-neftepererabotke-rossii-deficit-topliva-i-toplivnyy-krizis-v-2026-godu-822742/">Экономическая правда — топливный кризис 2026</a>. Мощности — проектная первичная переработка по открытым данным компаний.</div>
+      </div>
+    </details>
+  </div>
+</section>
+
+
 <!-- FOOTER -->
 <footer>
   <div class="wrap">
@@ -1190,8 +1193,8 @@ new Chart(cDl,{type:'line',data:{labels:['Сен’23','Ноя’23','Май’2
 (function(){
   var box=document.getElementById('share'); if(!box) return;
   var url=(document.querySelector('link[rel=canonical]')||{}).href || location.href;
-  var title='«Радар.НФ» — единственное в стране и неработоспособное';
-  var text=title+'. Расследование @ne_cybersec:';
+  var title='Единственное общенациональное приложение, которым гражданин РФ может сообщить о БПЛА для его уничтожения, — заброшено.';
+  var text=title+' Расследование @ne_cybersec:';
   var U=encodeURIComponent(url), T=encodeURIComponent(text), TL=encodeURIComponent(title);
   var links={
     tg:'https://t.me/share/url?url='+U+'&text='+T,
