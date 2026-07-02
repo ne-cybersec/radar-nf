@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>«Радар.НФ» · единственное в стране и неработоспособное — расследование @ne_cybersec</title>
+<meta name="description" content="Доказательное расследование приложения «Радар.НФ» (ОНФ): единственный федеральный канал для граждан сообщить о БПЛА — заброшен. Сломалось на ~5 часов. Данные на июнь 2026."/>
+<link rel="canonical" href="https://ne-cybersec.github.io/radar-nf/"/>
+
+<!-- Open Graph / превью ссылки (Telegram, соцсети). URL — АБСОЛЮТНЫЕ, под адрес выпуска. -->
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="ne_cybersec"/>
+<meta property="og:url" content="https://ne-cybersec.github.io/radar-nf/"/>
+<meta property="og:title" content="«Радар.НФ» — единственное в стране и неработоспособное"/>
+<meta property="og:description" content="Единственное общенациональное приложение, чтобы сообщить о вражеском БПЛА, — заброшено и в произвольный момент отказывает в отправке. Расследование @ne_cybersec, июнь 2026."/>
+<meta property="og:image" content="https://ne-cybersec.github.io/radar-nf/og-radar.png"/>
+<meta property="og:image:secure_url" content="https://ne-cybersec.github.io/radar-nf/og-radar.png"/>
+<meta property="og:image:type" content="image/png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="«Радар.НФ» — единственное в стране и неработоспособное. Расследование @ne_cybersec"/>
+<meta property="og:locale" content="ru_RU"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="«Радар.НФ» — единственное в стране и неработоспособное"/>
+<meta name="twitter:description" content="Единственный гражданский канал сообщить о БПЛА — заброшен и отказывает в отправке. Расследование @ne_cybersec, июнь 2026."/>
+<meta name="twitter:image" content="https://ne-cybersec.github.io/radar-nf/og-radar.png"/>
+
+<!-- Telegram Mini App SDK (загружается только внутри Telegram; в обычном браузере просто игнорируется) -->
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<!-- Решение об интро принимается синхронно, до первой отрисовки: без JS / при reduced-motion / при повторном визите за сессию — интро не показывается, контент виден сразу -->
+<script>
+(function(){
+  try{
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var seen = false; try{ seen = sessionStorage.getItem('nc_intro')==='1'; }catch(e){}
+    if(!reduce && !seen){
+      document.documentElement.classList.add('intro-on');
+      try{ sessionStorage.setItem('nc_intro','1'); }catch(e){}
+    }
+  }catch(e){}
+})();
+</script>
+<script>
+/* Тема: применяем сохранённую светлую тему до отрисовки (без мигания) */
+(function(){ try{ if(localStorage.getItem('nc_theme')==='light') document.documentElement.setAttribute('data-theme','light'); }catch(e){} })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap&subset=cyrillic,cyrillic-ext,latin" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:oklch(0.158 0.018 264); --bg-deep:oklch(0.128 0.016 264);
+  --surface:oklch(0.205 0.020 264); --surface-2:oklch(0.245 0.022 264);
+  --line:oklch(0.300 0.020 264); --line-soft:oklch(0.262 0.018 264);
+  --ink:oklch(0.970 0.006 264); --ink-2:oklch(0.820 0.014 264); --ink-3:oklch(0.660 0.018 264);
+  --c-cyan:oklch(0.800 0.118 218); --c-teal:oklch(0.845 0.130 182); --c-lime:oklch(0.882 0.150 108);
+  --c-amber:oklch(0.808 0.158 62); --c-red:oklch(0.700 0.180 26); --c-purple:oklch(0.660 0.100 300);
+  --sans:'Onest',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+  --maxw:1180px; --ease-quint:cubic-bezier(0.22,1,0.36,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--sans);background:var(--bg);color:var(--ink-2);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(oklch(0.5 0.02 264 / 0.10) 1px,transparent 1px);background-size:32px 32px}
+a{color:inherit}
+h1,h2,h3{color:var(--ink);line-height:1.05;font-weight:800;letter-spacing:-0.025em;text-wrap:balance;margin:0}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.wrap{width:min(100% - 2.4rem,var(--maxw));margin-inline:auto;position:relative;z-index:1}
+.em{color:var(--c-lime)}
+.topbar{position:sticky;top:0;z-index:50;background:oklch(0.158 0.018 264 / 0.72);backdrop-filter:blur(12px);border-bottom:1px solid var(--line-soft)}
+.topbar .wrap{display:flex;align-items:center;gap:1rem;justify-content:space-between;padding:0.7rem 0;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:0.6rem;font-weight:700;color:var(--ink);text-decoration:none}
+.brand .logo,.cta .logo{width:22px;height:22px;border-radius:7px;background:conic-gradient(from 220deg,var(--c-cyan),var(--c-teal),var(--c-lime),var(--c-amber),var(--c-red),var(--c-cyan));box-shadow:inset 0 0 0 1px oklch(1 0 0 / 0.18)}
+.brand small{font-weight:400;color:var(--ink-3);font-size:.8rem}
+.topnav{display:flex;align-items:center;gap:.15rem;min-width:0}
+.topnav a{position:relative;font-family:var(--mono);font-size:.8rem;color:var(--ink-3);text-decoration:none;padding:.42rem .72rem;border-radius:9px;white-space:nowrap;transition:color .2s,background .2s,transform .14s var(--ease-quint)}
+.topnav a:hover{color:var(--ink);background:var(--surface-2)}
+.topnav a:active{transform:scale(0.96)}
+.topnav a::after{content:"";position:absolute;left:.72rem;right:.72rem;bottom:.1rem;height:2px;border-radius:2px;background:var(--c-lime);transform:scaleX(0);transform-origin:left;transition:transform .2s var(--ease-quint)}
+.topnav a.is-active{color:var(--ink)}
+.topnav a.is-active::after{transform:scaleX(1)}
+.meta{font-family:var(--mono);font-size:.72rem;color:var(--ink-3)}
+.meta a{color:var(--ink-2);border-bottom:1px solid var(--line);text-decoration:none}
+.readbar{position:fixed;left:0;top:0;height:2px;background:var(--c-lime);width:0;z-index:60;transition:width .1s}
+.notice-bar{background:color-mix(in oklch,var(--c-amber) 12%,var(--bg-deep));border-bottom:1px solid var(--line-soft)}
+.notice-bar .wrap{padding:.6rem 0;font-family:var(--mono);font-size:.76rem;color:var(--ink-2);display:flex;gap:.6rem;align-items:flex-start}
+.notice-bar .fl{color:var(--c-amber);flex:none}
+.hero{padding:clamp(2.6rem,7vw,5rem) 0 clamp(1.6rem,4vw,2.6rem)}
+.tag{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.72rem;color:var(--ink-2);padding:.4rem .7rem;border:1px solid var(--line);border-radius:999px}
+.tag .dot{width:7px;height:7px;border-radius:50%;background:var(--c-amber);box-shadow:0 0 10px var(--c-amber);animation:pulse 2.4s var(--ease-quint) infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.hero h1{font-size:clamp(2rem,6vw,3.6rem);margin:1rem 0 .8rem}
+.hero .dek{color:var(--ink-2);font-size:clamp(1.02rem,2vw,1.22rem);max-width:62ch;text-wrap:pretty}
+.hero .dek b{color:var(--ink);font-weight:600}
+.byline{font-family:var(--mono);font-size:.78rem;color:var(--ink-3);margin-top:1.4rem}
+.byline b{color:var(--ink-2)}
+.callout{margin-top:1.8rem;padding:clamp(1.4rem,4vw,2.2rem);border-radius:16px;background:linear-gradient(120deg,oklch(0.24 0.05 26 / 0.55),oklch(0.20 0.03 30 / 0.35));border:1px solid var(--line);display:grid;grid-template-columns:auto 1fr;gap:clamp(1rem,3vw,2rem);align-items:center}
+.callout__big{font-family:var(--mono);font-weight:700;font-size:clamp(2.8rem,9vw,5rem);line-height:.85;color:var(--c-red);letter-spacing:-.04em}
+.callout p{color:var(--ink);font-size:clamp(1.02rem,2.1vw,1.3rem);line-height:1.4;font-weight:500;margin:0;text-wrap:pretty}
+.callout p span{display:block;color:var(--ink-3);font-size:.85rem;font-weight:400;margin-top:.5rem;line-height:1.5}
+@media(max-width:540px){.callout{grid-template-columns:1fr}}
+.sec{padding:clamp(2.6rem,6vw,4.4rem) 0;border-top:1px solid var(--line-soft)}
+.kick{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--c-teal)}
+.sec h2{font-size:clamp(1.5rem,4vw,2.4rem);margin:.5rem 0 .7rem}
+.lead{color:var(--ink-2);max-width:66ch;margin:0 0 1.6rem;text-wrap:pretty}
+.lead b{color:var(--ink);font-weight:600}
+.stats{display:grid;gap:0}
+.stat{display:grid;grid-template-columns:auto 1fr;gap:1.2rem;align-items:center;padding:1rem 0;border-bottom:1px solid var(--line-soft)}
+.stat:first-child{border-top:1px solid var(--line-soft)}
+.stat__num{font-family:var(--mono);font-weight:700;font-size:clamp(1.7rem,4.4vw,2.5rem);line-height:1;color:var(--ink)}
+.stat__num.red{color:var(--c-red)} .stat__num.amber{color:var(--c-amber)} .stat__num.teal{color:var(--c-teal)}
+.stat__lbl{font-size:.93rem;color:var(--ink-2);line-height:1.35}
+.grid{display:grid;gap:1rem}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:820px){.g3{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.g2,.g3{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line-soft);border-radius:16px;padding:1.4rem;box-shadow:0 30px 80px -50px oklch(0 0 0 / .7)}
+.card h3{font-size:1.08rem;margin:0 0 .5rem}
+.card p{color:var(--ink-2);font-size:.94rem;margin:.2rem 0;text-wrap:pretty}
+.card p b,.lead b{color:var(--ink);font-weight:600}
+.chartbox{background:var(--bg-deep);border:1px solid var(--line-soft);border-radius:16px;padding:1.2rem}
+.chartbox .cap{font-family:var(--mono);font-size:.74rem;color:var(--ink-3);margin:.3rem 0 .8rem}
+.srcmini{font-family:var(--mono);font-size:.72rem;color:var(--ink-3);margin-top:.8rem}
+.shot{display:block;width:100%;max-width:240px;border-radius:18px;border:1px solid var(--line);box-shadow:0 30px 80px -40px oklch(0 0 0 / .8)}
+.kam-bg{position:absolute;right:0;top:1.2rem;width:clamp(120px,22vw,210px);opacity:.22;filter:grayscale(.15) contrast(1.05);pointer-events:none;z-index:-1;border-radius:14px;-webkit-mask-image:radial-gradient(circle at 55% 40%,#000 42%,transparent 74%);mask-image:radial-gradient(circle at 55% 40%,#000 42%,transparent 74%)}
+@media(max-width:680px){.kam-bg{opacity:.13;width:120px;top:.6rem}}
+.crackwrap{position:relative;display:inline-block;cursor:crosshair}
+.crackwrap .crack{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.crackwrap .hint{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);font-family:var(--mono);font-size:.62rem;color:var(--ink);background:oklch(0.12 0.02 264 / .7);padding:2px 8px;border-radius:20px;opacity:.85}
+/* map */
+.rfmap{width:100%;height:auto;display:block;background:var(--bg-deep);border-radius:12px;border:1px solid var(--line-soft);touch-action:none}
+.rfmap .city{fill:var(--ink-3);transition:fill .15s,r .15s;cursor:pointer}
+.rfmap .city.sel{fill:var(--c-red)}
+.rfmap .clbl{fill:var(--ink-2);font-family:var(--mono);font-size:11px;pointer-events:none}
+.rfmap .clbl.cap{fill:var(--ink);font-weight:700}
+.rfmap .ring{fill:color-mix(in oklch,var(--c-red) 8%,transparent);stroke:var(--c-red);stroke-width:1.4;stroke-dasharray:5 4}
+.rfmap .rline{stroke:var(--c-red);stroke-width:1;stroke-dasharray:3 3;opacity:.7}
+.rfmap .kmlbl{fill:var(--c-red);font-family:var(--mono);font-size:13px;font-weight:700}
+.figrow{display:grid;grid-template-columns:auto 1fr;gap:1.4rem;align-items:center}
+@media(max-width:600px){.figrow{grid-template-columns:1fr}}
+.figcap{font-family:var(--mono);font-size:.72rem;color:var(--ink-3);margin-top:.5rem}
+.portrait{width:80px;height:80px;border-radius:14px;object-fit:cover;border:1px solid var(--line);flex:none}
+/* sniffer terminal cards */
+.sniffer{background:var(--bg-deep);border:1px solid var(--line);border-radius:14px;overflow:hidden;font-family:var(--mono);font-size:.8rem}
+.sniffer .bar{display:flex;align-items:center;gap:.5rem;padding:.5rem .8rem;background:var(--surface-2);border-bottom:1px solid var(--line);color:var(--ink-3);font-size:.72rem}
+.sniffer .bar .d{width:9px;height:9px;border-radius:50%;background:var(--c-red)}
+.sniffer .bar .d.g{background:var(--c-teal)}.sniffer .bar .d.y{background:var(--c-amber)}
+.sniffer .bar .lbl{margin-left:auto;letter-spacing:.05em}
+.sniffer pre{margin:0;padding:.9rem 1rem;color:var(--ink-2);line-height:1.6;white-space:pre-wrap;word-break:break-word;overflow-x:auto}
+.sniffer .k{color:var(--c-cyan)}.sniffer .red{color:var(--c-red)}.sniffer .ok{color:var(--c-teal)}.sniffer .am{color:var(--c-amber)}
+.redact{background:var(--ink-3);color:var(--ink-3);border-radius:2px;padding:0 .15em;letter-spacing:.05em}
+/* deflist */
+.deflist{display:grid;border-top:1px solid var(--line-soft);margin-top:.4rem}
+.def{display:grid;grid-template-columns:3.2rem 1fr;gap:clamp(.8rem,3vw,2rem);padding:1.3rem 0;border-bottom:1px solid var(--line-soft);align-items:start}
+.def__idx{font-family:var(--mono);font-size:.85rem;color:var(--ink-3)}
+.def__idx .bar{display:block;width:26px;height:4px;border-radius:2px;margin-top:.6rem}
+.def h3{font-size:1.18rem;margin-bottom:.4rem}.def p{color:var(--ink-2);max-width:64ch;margin:0;text-wrap:pretty}.def p b{color:var(--ink);font-weight:600}
+@media(max-width:600px){.def{grid-template-columns:1fr}.def__idx{display:flex;align-items:center;gap:.8rem}.def__idx .bar{margin-top:0}}
+/* timeline */
+.tl{list-style:none;padding:0;margin:.4rem 0 0;position:relative}
+.tl::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:1.5px;background:linear-gradient(var(--c-purple),var(--line))}
+.tl li{position:relative;padding:0 0 1.3rem 2.1rem}.tl li:last-child{padding-bottom:0}
+.tl li::before{content:"";position:absolute;left:0;top:4px;width:13px;height:13px;border-radius:50%;background:var(--bg);border:2px solid var(--c-teal)}
+.tl li.bad::before{border-color:var(--c-red)}
+.tl__d{font-family:var(--mono);font-size:.74rem;color:var(--ink-3);display:block;margin-bottom:.25rem}
+.tl li b{color:var(--ink);font-weight:600}.tl li .t{color:var(--ink-2);font-size:.93rem}
+/* facts */
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0 clamp(1.5rem,4vw,3rem);border-top:1px solid var(--line)}
+.fact{padding:1.3rem 0;border-bottom:1px solid var(--line-soft)}
+.fact h3{font-size:1.05rem;margin:0 0 .5rem;display:flex;align-items:baseline;gap:.6rem}
+.fact h3::before{content:"";width:7px;height:7px;border-radius:2px;background:var(--c-purple);flex:none}
+.fact p{color:var(--ink-2);font-size:.92rem;margin:0;text-wrap:pretty}.fact p b{color:var(--ink);font-weight:600}
+/* compare */
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:680px){.cmp{grid-template-columns:1fr}}
+.cmp .col{border:1px solid var(--line-soft);border-radius:16px;padding:1.4rem;background:var(--surface)}
+.cmp .ua{box-shadow:inset 3px 0 0 var(--c-cyan)} .cmp .ru{box-shadow:inset 3px 0 0 var(--c-red)}
+.cmp h3{display:flex;align-items:center;gap:.6rem;margin:0 0 1rem}
+.flag{width:26px;height:17px;border-radius:3px;display:inline-block}
+.flag.ua{background:linear-gradient(180deg,#3b7fd6 50%,#e8c33a 50%)}
+.flag.ru{background:linear-gradient(180deg,#e9edf2 33%,#2a5cc0 33% 66%,#cc3a35 66%)}
+.cmp ul{list-style:none;padding:0;margin:0}
+.cmp li{padding:.6rem 0;border-bottom:1px dashed var(--line-soft);font-size:.92rem;color:var(--ink-2)}
+.cmp li:last-child{border-bottom:none}
+.cmp li b{display:block;font-family:var(--mono);color:var(--ink-3);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.15rem}
+.ok{color:var(--c-teal);font-weight:600}.bad{color:var(--c-red);font-weight:600}
+/* table */
+.tbl{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:.4rem}
+.tbl th,.tbl td{text-align:left;padding:.7rem .8rem;border-bottom:1px solid var(--line-soft);vertical-align:top}
+.tbl th{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-3);font-weight:500}
+.tbl td{color:var(--ink-2)}.tbl td b{color:var(--ink)}
+.tbl .dt{font-family:var(--mono);color:var(--ink-3);white-space:nowrap}
+.chip{display:inline-block;font-family:var(--mono);font-size:.66rem;padding:.12rem .5rem;border-radius:5px;border:1px solid var(--line);color:var(--ink-2)}
+/* accordion */
+.acc{border-top:1px solid var(--line-soft)}
+.acc details{border-bottom:1px solid var(--line-soft)}
+.acc summary{list-style:none;cursor:pointer;display:flex;gap:.7rem;align-items:flex-start;padding:.95rem 0;color:var(--ink);font-weight:500;transition:color .2s}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary .x{font-family:var(--mono);color:var(--c-red);font-weight:700;flex:none}
+.acc summary .cv{margin-left:auto;font-family:var(--mono);font-size:.72rem;color:var(--ink-3);flex:none;transition:transform .2s}
+.acc details[open] summary .cv{color:var(--c-teal)}
+.acc details[open] summary .cv::after{content:" — скрыть"}
+.acc .proof{padding:0 0 1.1rem 1.7rem;color:var(--ink-2);font-size:.9rem;line-height:1.62;text-wrap:pretty}
+.acc .proof b{color:var(--ink)}
+.acc .proof .ev{font-family:var(--mono);font-size:.78rem;color:var(--ink-3);display:block;margin-top:.5rem;border-left:2px solid var(--line);padding-left:.7rem}
+/* carousel */
+.car{display:flex;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;padding:.3rem 0 1rem;-webkit-overflow-scrolling:touch}
+.car::-webkit-scrollbar{height:6px}.car::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.quote{flex:0 0 min(86%,420px);scroll-snap-align:start;border:1px solid var(--line-soft);border-radius:16px;padding:1.4rem;background:var(--surface)}
+.quote .q{font-size:1.02rem;color:var(--ink);line-height:1.5;text-wrap:pretty}
+.quote .q::before{content:"«";color:var(--c-teal)}.quote .q::after{content:"»";color:var(--c-teal)}
+.quote .who{font-family:var(--mono);font-size:.76rem;color:var(--c-teal);margin-top:1rem}
+.quote .who span{color:var(--ink-3);display:block;margin-top:.2rem}
+.carhint{font-family:var(--mono);font-size:.72rem;color:var(--ink-3);margin-top:-.4rem}
+.carwrap{position:relative}
+/* НПЗ: горизонтальная лента ударов */
+.npz{flex:0 0 210px;scroll-snap-align:start;border:1px solid var(--line-soft);border-radius:14px;padding:1rem 1.1rem;background:var(--surface);display:flex;flex-direction:column;gap:.45rem;box-shadow:0 30px 80px -55px oklch(0 0 0 / .7)}
+.npz__d{font-family:var(--mono);font-size:.72rem;color:var(--c-amber);letter-spacing:.02em}
+.npz__name{font-weight:700;color:var(--ink);font-size:1.02rem;line-height:1.18}
+.npz__loc{font-size:.82rem;color:var(--ink-3);line-height:1.3}
+.npz__cap{font-family:var(--mono);font-weight:700;font-size:1.6rem;color:var(--c-red);line-height:1;margin-top:auto}
+.npz__cap span{display:block;font-size:.66rem;color:var(--ink-3);font-weight:400;letter-spacing:.02em;margin-top:.25rem}
+.npz__st{font-family:var(--mono);font-size:.64rem;text-transform:uppercase;letter-spacing:.04em;padding:.16rem .5rem;border-radius:5px;align-self:flex-start;border:1px solid var(--line);color:var(--ink-2)}
+.npz__st.stop{color:var(--c-red);border-color:color-mix(in oklch,var(--c-red) 45%,var(--line));background:color-mix(in oklch,var(--c-red) 8%,transparent)}
+.npz__st.hit{color:var(--c-amber);border-color:color-mix(in oklch,var(--c-amber) 45%,var(--line));background:color-mix(in oklch,var(--c-amber) 8%,transparent)}
+.caro{position:absolute;top:42%;transform:translateY(-50%);z-index:3;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:oklch(0.205 0.02 264 / .9);backdrop-filter:blur(6px);color:var(--ink);font-family:var(--mono);font-size:1.1rem;display:grid;place-content:center;cursor:pointer;transition:border-color .2s,background .2s}
+.caro:hover{border-color:var(--c-teal);background:var(--surface-2)}
+.caro.prev{left:-6px}.caro.next{right:-6px}
+@media(max-width:680px){.caro{display:none}}
+/* thesis simple */
+.grp{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--c-teal);margin:1.2rem 0 .3rem}
+/* big highlighted block */
+.bigblock{margin-top:1.4rem;border:1px solid var(--c-amber);border-radius:18px;padding:clamp(1.5rem,4vw,2.4rem);background:linear-gradient(120deg,color-mix(in oklch,var(--c-amber) 10%,transparent),transparent)}
+.bigblock .h{font-family:var(--mono);font-weight:700;font-size:clamp(1.8rem,5vw,2.8rem);color:var(--c-amber);line-height:1;letter-spacing:-.03em}
+.bigblock p{color:var(--ink);margin:.8rem 0 0;text-wrap:pretty}
+/* note / verdict / opinion */
+.note{padding:clamp(1.2rem,3vw,1.8rem);border:1px solid var(--line);border-radius:14px;background:color-mix(in oklch,var(--c-purple) 9%,transparent);color:var(--ink);text-wrap:pretty}
+.verdict{margin-top:1.4rem;padding:clamp(1.4rem,4vw,2.2rem);border:1px solid var(--c-red);border-radius:16px;background:color-mix(in oklch,var(--c-red) 8%,transparent)}
+.verdict h2{font-size:clamp(1.3rem,3vw,1.9rem);margin-bottom:.6rem}.verdict p{color:var(--ink);margin:.4rem 0}
+.opinion{border:1px solid var(--line);border-radius:16px;padding:clamp(1.4rem,4vw,2.2rem);background:radial-gradient(120% 140% at 0% 0%,color-mix(in oklch,var(--c-lime) 10%,transparent),transparent 60%),var(--surface)}
+.opinion .who{font-family:var(--mono);font-size:.78rem;color:var(--c-lime)}
+.opinion p{color:var(--ink-2);text-wrap:pretty}.opinion p b{color:var(--ink)}
+.honest{font-family:var(--mono);font-size:.82rem;color:var(--ink-3);margin-top:1rem;border-top:1px solid var(--line-soft);padding-top:.9rem}
+.dlg{max-width:320px;background:var(--surface-2);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 24px 60px -24px oklch(0 0 0 / .8)}
+.dlg .b{padding:1.3rem;color:var(--ink);font-size:1rem}
+.dlg .ok-btn{text-align:right;padding:.8rem 1.2rem;border-top:1px solid var(--line);color:var(--c-red);font-weight:700;font-family:var(--mono)}
+/* source index */
+.srcidx{columns:2;column-gap:2.5rem}
+@media(max-width:680px){.srcidx{columns:1}}
+.srcidx .cat{break-inside:avoid;margin-bottom:1.2rem}
+.srcidx .cat h4{font-family:var(--mono);font-size:.74rem;text-transform:uppercase;letter-spacing:.05em;color:var(--c-teal);margin:0 0 .5rem}
+.srcidx ol{margin:0;padding-left:1.3rem}
+.srcidx li{font-size:.82rem;color:var(--ink-2);margin-bottom:.35rem;line-height:1.4;break-inside:avoid}
+.srcidx a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--line)}
+.srcidx a:hover{color:var(--ink);border-color:var(--c-teal)}
+/* footer */
+footer{border-top:1px solid var(--line-soft);padding:clamp(2.4rem,6vw,4rem) 0 3rem;margin-top:1rem}
+.foot-h{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:0 0 .6rem}
+.cta{display:flex;align-items:center;gap:1rem;border:1px solid var(--line);border-radius:16px;padding:1.2rem 1.4rem;background:var(--surface);text-decoration:none;color:var(--ink);transition:border-color .2s;cursor:pointer}
+.cta:hover{border-color:var(--c-teal)}.cta .logo{width:34px;height:34px}
+.cta .arrow{margin-left:auto;font-family:var(--mono);color:var(--c-teal)}
+.hash{display:flex;flex-wrap:wrap;gap:.4rem .5rem;margin-top:1.4rem}
+.hash a{font-family:var(--mono);font-size:.74rem;color:var(--ink-3);text-decoration:none}
+.hash a:hover{color:var(--c-teal)}
+.disc{font-size:.8rem;color:var(--ink-3);margin-top:1.4rem;border-top:1px solid var(--line-soft);padding-top:1rem;text-wrap:pretty}
+
+/* ============================================================
+   ТОПБАР: правый блок, мобильное меню-лента, переключатель темы
+   ============================================================ */
+.topbar__right{display:flex;align-items:center;gap:.8rem;flex:none}
+.topnav-wrap{display:contents}
+.topnav-cue{display:none}
+.theme-toggle{width:34px;height:34px;flex:none;border-radius:9px;border:1px solid var(--line);background:transparent;color:var(--ink-2);display:grid;place-content:center;font-size:.95rem;line-height:1;cursor:pointer;transition:border-color .2s,color .2s,background .2s,transform .14s var(--ease-quint)}
+.theme-toggle:hover{border-color:var(--ink-3);color:var(--ink);background:var(--surface)}
+.theme-toggle:active{transform:scale(0.92)}
+section[id]{scroll-margin-top:72px}
+@media(max-width:640px){.meta{display:none}}
+@media(max-width:980px){
+  .topbar .wrap{flex-wrap:nowrap}
+  .topnav-wrap{display:flex;position:relative;flex:1 1 auto;min-width:0;align-items:center;margin-inline:.4rem}
+  .topnav{flex:1 1 auto;min-width:0;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6px,#000 calc(100% - 22px),transparent);mask-image:linear-gradient(90deg,transparent,#000 6px,#000 calc(100% - 22px),transparent)}
+  .topnav::-webkit-scrollbar{display:none}
+  .topnav-wrap[data-more="true"] .topnav-cue{display:grid;place-content:center;position:absolute;right:-2px;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:1.05rem;line-height:1;padding:0 0 2px 1px;cursor:pointer;box-shadow:-10px 0 14px -6px var(--bg)}
+  .topnav-wrap[data-more="true"] .topnav-cue::before{content:"";position:absolute;inset:-4px;border-radius:50%;border:1px solid var(--c-lime);opacity:0}
+}
+@media(max-width:980px) and (prefers-reduced-motion:no-preference){
+  .topnav-wrap[data-more="true"] .topnav-cue::before{animation:cuePulse 2s var(--ease-quint) infinite}
+}
+@keyframes cuePulse{0%{opacity:.5;transform:scale(.85)}70%,100%{opacity:0;transform:scale(1.25)}}
+
+/* ============================================================
+   PRESS-FEEDBACK + REDUCED MOTION
+   ============================================================ */
+.topnav a,.cta,.caro,.acc summary,.hash a{transition:color .2s,background .2s,border-color .2s,transform .14s var(--ease-quint)}
+.topnav a:active,.cta:active,.caro:active,.acc summary:active,.city:active{transform:scale(0.97)}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
+  .tag .dot{animation:none}
+}
+
+/* ============================================================
+   INTRO (проигрывается один раз за сессию; выкл. без JS / reduced-motion)
+   ============================================================ */
+.intro{position:fixed;inset:0;z-index:200;display:none;flex-direction:column;align-items:center;justify-content:center;gap:clamp(1.1rem,3vw,1.8rem);padding:2rem;text-align:center;background:radial-gradient(120% 90% at 50% 34%,oklch(0.205 0.03 264),var(--bg-deep))}
+html.intro-on .intro{display:flex;animation:introOut .85s var(--ease-quint) 4s forwards}
+.intro.intro--skip{animation:introOut .42s var(--ease-quint) forwards !important}
+@keyframes introOut{to{opacity:0;visibility:hidden;transform:scale(1.04);filter:blur(10px)}}
+@media(prefers-reduced-motion:reduce){.intro{display:none !important}}
+.intro__brand{display:flex;align-items:center;gap:.55rem;font-family:var(--mono);font-size:.8rem;color:var(--ink-3);opacity:0}
+.intro__brand .logo{width:22px;height:22px;border-radius:7px;background:conic-gradient(from 220deg,var(--c-cyan),var(--c-teal),var(--c-lime),var(--c-amber),var(--c-red),var(--c-cyan));box-shadow:inset 0 0 0 1px oklch(1 0 0 / 0.18)}
+html.intro-on .intro__brand{animation:introFade .6s ease .1s forwards}
+.intro__viz{position:relative;display:grid;place-items:center}
+.intro__globe{width:clamp(130px,28vw,210px);height:auto}
+.intro__globe :is(circle,ellipse,line){fill:none;stroke:var(--line);stroke-width:1;opacity:0}
+html.intro-on .intro__globe :is(circle,ellipse,line){stroke-dasharray:660;stroke-dashoffset:660;animation:introDraw 1.35s var(--ease-quint) forwards,introStroke .5s ease forwards}
+@keyframes introDraw{to{stroke-dashoffset:0}}
+@keyframes introStroke{to{opacity:.6}}
+.intro__sweep{transform-origin:100px 100px;stroke:var(--c-red) !important;stroke-width:1.4 !important;opacity:.85 !important;stroke-dasharray:none !important}
+html.intro-on .intro__sweep{animation:introSweep 2.4s linear .6s infinite !important}
+@keyframes introSweep{to{transform:rotate(360deg)}}
+.intro__orbit{position:absolute;inset:0}
+html.intro-on .intro__orbit{animation:introSpin 18s linear infinite}
+@keyframes introSpin{to{transform:rotate(360deg)}}
+.intro__dot{position:absolute;width:12px;height:12px;border-radius:50%;background:var(--c);box-shadow:0 0 14px var(--c);transform:scale(.4);opacity:0}
+html.intro-on .intro__dot{animation:introPop .55s var(--ease-quint) forwards}
+@keyframes introPop{0%{transform:scale(.4);opacity:0}60%{transform:scale(1.15);opacity:1}100%{transform:scale(1);opacity:1}}
+.intro__loading{font-family:var(--mono);font-size:.85rem;letter-spacing:.05em;color:var(--ink-2);opacity:0}
+html.intro-on .intro__loading{animation:introLoad 1.6s ease-in-out .4s infinite}
+@keyframes introLoad{0%,100%{opacity:.35}50%{opacity:.9}}
+.intro__title{font-size:clamp(1.5rem,5.2vw,3.2rem);font-weight:800;color:var(--ink);letter-spacing:-.02em;line-height:1.06;max-width:20ch;text-wrap:balance}
+.intro__title .w{display:inline-block;opacity:0;filter:blur(8px);transform:translateY(14px)}
+html.intro-on .intro__title .w{animation:introWord .7s var(--ease-quint) forwards}
+@keyframes introWord{to{opacity:1;filter:blur(0);transform:none}}
+.intro__title .em{color:var(--c-red)}
+.intro__ramp{display:flex;gap:4px}
+.intro__ramp i{width:clamp(26px,6vw,36px);height:7px;border-radius:3px;transform:scaleX(0);transform-origin:left}
+html.intro-on .intro__ramp i{animation:introBar .5s var(--ease-quint) forwards}
+@keyframes introBar{to{transform:scaleX(1)}}
+.intro__skip{position:absolute;bottom:clamp(1.2rem,4vw,2.2rem);font-family:var(--mono);font-size:.78rem;color:var(--ink-3);border:1px solid var(--line);border-radius:999px;padding:.45rem 1rem;background:transparent;cursor:pointer;opacity:0;transition:color .2s,border-color .2s}
+html.intro-on .intro__skip{animation:introFade .5s ease 1.4s forwards}
+.intro__skip:hover{color:var(--ink);border-color:var(--ink-3)}
+@keyframes introFade{to{opacity:1}}
+
+/* ============================================================
+   СВЕТЛАЯ (ДНЕВНАЯ) ТЕМА
+   ============================================================ */
+:root[data-theme="light"]{
+  --bg:oklch(0.986 0.003 264); --bg-deep:oklch(0.966 0.005 264);
+  --surface:oklch(1 0 0); --surface-2:oklch(0.976 0.004 264);
+  --line:oklch(0.852 0.012 264); --line-soft:oklch(0.916 0.008 264);
+  --ink:oklch(0.215 0.022 264); --ink-2:oklch(0.380 0.020 264); --ink-3:oklch(0.520 0.018 264);
+  /* Акцентные цвета как ТЕКСТ на белом затемняются (оттенок сохраняется) ради контраста AA */
+  --c-cyan:oklch(0.520 0.130 218); --c-teal:oklch(0.500 0.120 182); --c-lime:oklch(0.520 0.150 130);
+  --c-amber:oklch(0.560 0.150 62); --c-red:oklch(0.530 0.200 26); --c-purple:oklch(0.500 0.150 300);
+}
+:root[data-theme="light"] body::before{background-image:radial-gradient(oklch(0.45 0.02 264 / 0.07) 1px,transparent 1px)}
+:root[data-theme="light"] .topbar{background:oklch(1 0 0 / 0.82)}
+:root[data-theme="light"] .caro{background:oklch(1 0 0 / 0.9)}
+:root[data-theme="light"] .card,:root[data-theme="light"] .cmp .col,:root[data-theme="light"] .quote{box-shadow:0 24px 60px -46px oklch(0 0 0 / 0.30)}
+:root[data-theme="light"] .shot{box-shadow:0 30px 80px -46px oklch(0 0 0 / 0.35)}
+:root[data-theme="light"] .intro{background:radial-gradient(120% 90% at 50% 34%,oklch(0.95 0.02 264),var(--bg-deep))}
+:root[data-theme="light"] .callout{background:linear-gradient(120deg,oklch(0.93 0.035 26 / 0.75),oklch(0.95 0.03 30 / 0.5))}
+:root[data-theme="light"] .callout__big{color:var(--c-red)}
+:root[data-theme="light"] .sniffer .redact{background:oklch(0.55 0.02 264);color:oklch(0.55 0.02 264)}
+/* Поделиться */
+.share{margin-top:1.6rem;border-top:1px solid color-mix(in oklch,var(--c-teal) 26%,var(--line-soft));padding-top:1.2rem}
+.share__lbl{font-family:var(--mono);font-size:.78rem;color:var(--ink-2);margin-bottom:.7rem}
+.share__row{display:flex;flex-wrap:wrap;gap:.55rem}
+.sh{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--sans);font-size:.86rem;font-weight:600;color:var(--ink);text-decoration:none;padding:.55rem .9rem;border-radius:10px;border:1px solid var(--line);background:var(--surface);cursor:pointer;transition:transform .14s var(--ease-quint),border-color .2s,background .2s}
+.sh:hover{border-color:var(--ink-3)}
+.sh:active{transform:scale(0.96)}
+.sh__i{display:grid;place-content:center;width:20px;height:20px;border-radius:5px;font-size:.78rem;font-weight:700;color:#fff;flex:none}
+.sh--tg .sh__i{background:#2aabee}
+.sh--wa .sh__i{background:#25d366}
+.sh--vk .sh__i{background:#0077ff}
+.sh--x .sh__i{background:#000;color:#fff}
+.sh--ok .sh__i{background:#ee8208;font-size:.58rem}
+.sh--copy .sh__i{background:var(--surface-2);color:var(--ink-2)}
+.sh--copy.done{border-color:var(--c-teal);color:var(--c-teal)}
+@media(pointer:coarse){.sh{padding-block:.7rem}}
+/* Иконка бренда: башни Кремля (ne_cybersec) вместо conic-градиента */
+.brand .logo,.cta .logo,.intro__brand .logo{background:url("logo.svg") center/cover no-repeat;box-shadow:none}
+/* Мобильное меню как на map: прячем «· расследование», лента-меню шире */
+@media(max-width:820px){.brand small{display:none}}
+@media(max-width:980px){.topbar__right{gap:.5rem}.brand{gap:.5rem}}
+:root[data-theme="light"] ::selection{background:oklch(0.80 0.15 62 / 0.30);color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="readbar" id="readbar"></div>
+
+<!-- INTRO ANIMATION -->
+<div class="intro" aria-hidden="true">
+  <div class="intro__brand"><span class="logo"></span>@ne_cybersec</div>
+  <div class="intro__viz">
+    <svg class="intro__globe" viewBox="0 0 200 200" aria-hidden="true">
+      <circle cx="100" cy="100" r="84" style="animation-delay:.15s,.15s"/>
+      <circle cx="100" cy="100" r="56" style="animation-delay:.28s,.28s"/>
+      <circle cx="100" cy="100" r="28" style="animation-delay:.40s,.40s"/>
+      <line x1="16" y1="100" x2="184" y2="100" style="animation-delay:.24s,.24s"/>
+      <line x1="100" y1="16" x2="100" y2="184" style="animation-delay:.24s,.24s"/>
+      <line class="intro__sweep" x1="100" y1="100" x2="100" y2="18"/>
+    </svg>
+    <div class="intro__orbit">
+      <span class="intro__dot" style="--c:var(--c-red); top:26%; left:64%; animation-delay:1.05s"></span>
+      <span class="intro__dot" style="--c:var(--c-amber); top:64%; left:70%; animation-delay:1.18s"></span>
+      <span class="intro__dot" style="--c:var(--c-cyan); top:70%; left:30%; animation-delay:1.30s"></span>
+      <span class="intro__dot" style="--c:var(--c-red); top:30%; left:26%; animation-delay:1.42s"></span>
+    </div>
+  </div>
+  <h2 class="intro__title">
+    <span class="w" style="animation-delay:.55s">Единственное</span> <span class="w" style="animation-delay:.64s">в</span> <span class="w" style="animation-delay:.72s">стране</span> <span class="w" style="animation-delay:.80s">—</span>
+    <span class="w" style="animation-delay:.92s">и</span> <span class="w em" style="animation-delay:1.02s">неработоспособное</span>
+  </h2>
+  <div class="intro__ramp" aria-hidden="true">
+    <i style="background:var(--c-cyan);animation-delay:1.15s"></i>
+    <i style="background:var(--c-teal);animation-delay:1.22s"></i>
+    <i style="background:var(--c-lime);animation-delay:1.29s"></i>
+    <i style="background:var(--c-amber);animation-delay:1.36s"></i>
+    <i style="background:var(--c-red);animation-delay:1.43s"></i>
+  </div>
+  <div class="intro__loading" aria-hidden="true">Расшифровка перехвата…</div>
+  <button class="intro__skip" type="button">Пропустить →</button>
+</div>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="https://t.me/ne_cybersec" target="_blank" rel="noopener"><span class="logo"></span>ne_cybersec <small>· расследование</small></a>
+    <div class="topnav-wrap">
+      <nav class="topnav" id="topnav" aria-label="Разделы статьи">
+        <a href="#ugroza">Угроза</a><a href="#chto">Кто стоит</a><a href="#slom">Сломалось</a>
+        <a href="#perehvat">Перехват</a><a href="#zabr">Заброшено</a><a href="#cmp">Украина/РФ</a>
+        <a href="#112">112</a><a href="#smi">Хроника</a><a href="#otchet">Отчётность</a><a href="#sources">Источники</a>
+      </nav>
+      <button class="topnav-cue" id="topnav-cue" type="button" aria-label="Прокрутить меню вправо" tabindex="-1">›</button>
+    </div>
+    <div class="topbar__right">
+      <span class="meta">данные на 30 июня 2026 · <a href="#sources">источники</a></span>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Светлая / тёмная тема"><span class="theme-toggle__icon">☾</span></button>
+    </div>
+  </div>
+</header>
+
+<div class="notice-bar"><div class="wrap"><span class="fl">⚑</span><span>Настоящее исследование предназначено к сведению <b style="color:var(--c-amber)">органов власти</b> по текущему острейшему вопросу национальной безопасности.</span></div></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <span class="tag"><span class="dot"></span>Открытое техническое расследование · часть 1</span>
+    <h1>«Радар.НФ»: единственное в стране — и <span class="em">неработоспособное</span></h1>
+    <p class="dek">Единственное <b>общенациональное</b> приложение, через которое гражданин России может сообщить о вражеском БПЛА для его локализации и уничтожения, — <b>заброшено</b>. Его перестали продвигать: с ноября 2025 года нет ни одной публикации о развитии приложения. Сегодня никто публично не утверждает, что оно сейчас кого-то защищает.</p>
+    <div class="callout">
+      <div class="callout__big">~5&nbsp;ч</div>
+      <p>После нескольких отправленных сообщений приложение перестало принимать новые — с 10:19 до 15:01 (30.06.2026), как минимум ~5 часов.
+        <span>Похоже, телефон поставили в блок на неопределённый срок: на каждое следующее «Сообщить» сервер отвечал «Превышено количество отчётов». В боевых условиях, когда счёт идёт на секунды, это критично.</span></p>
+    </div>
+    <div class="byline">материал: <b>@ne_cybersec</b> · методы и источники — в конце</div>
+  </div>
+</section>
+
+<!-- УГРОЗА 2026 -->
+<section class="sec" id="ugroza">
+  <div class="wrap">
+    <span class="kick">Основной контекст · именно в 2026 году</span>
+    <h2>Насколько остра проблема ударов БПЛА по России сейчас</h2>
+    <p class="lead">Это не фон, а главная угроза тыловым регионам прямо в этом году. Тем показательнее, что единственный гражданский инструмент такого рода не работает.</p>
+    <div class="grid g3">
+      <div class="card" style="text-align:center"><div class="stat__num red mono" style="font-size:2.6rem">39 000+</div><p>украинских дронов перехвачено и уничтожено над <b>51 регионом</b> РФ с января 2026 года</p></div>
+      <div class="card" style="text-align:center"><div class="stat__num red mono" style="font-size:2.6rem">~223</div><p>дрона в сутки в среднем сбивают силы ПВО в 2026-м (~6 000 в месяц)</p></div>
+      <div class="card" style="text-align:center"><div class="stat__num red mono" style="font-size:2.6rem">660</div><p>дронов за ночь 26.06.2026 — рекорд года; 17.05 — 556, 18.06 — 555</p></div>
+    </div>
+    <div class="grid g2" style="margin-top:1rem">
+      <div class="card">
+        <h3>География удара — это вся европейская часть</h3>
+        <p>Сильнее всего страдают <b>Белгородская, Курская, Брянская</b> области и Крым, а также Краснодарский край, <b>Московская, Тульская, Орловская</b> области. За неполный июнь 2026 — уже ~9,7 тыс. сбитых.</p>
+        <p>С января 2025 пострадал <b>21 из 38</b> крупных НПЗ → топливный кризис и дефицит бензина. Пострадавшие фиксировались в 34% атак дронов, разрушения — в 85%.</p>
+      </div>
+      <div class="chartbox">
+        <h3 style="margin:.2rem 0;font-size:1rem">Из чего складывались военные инциденты 2025</h3>
+        <div class="cap">Атаки дронов — почти половина всех происшествий на территории РФ.</div>
+        <canvas id="cDon" height="210"></canvas>
+      </div>
+    </div>
+    <div class="srcmini">Источники: РИА Новости (26.06.2026), URA.news / Крым-news (39 тыс. за 2026), ТАСС, «Новая газета Европа», The Moscow Times.</div>
+
+    <!-- УСПЕШНЫЕ УДАРЫ ПО НПЗ 2026 -->
+    <h3 style="margin:2.4rem 0 .3rem;font-size:clamp(1.2rem,3vw,1.6rem)">Успешные удары по НПЗ России · 2026</h3>
+    <p class="lead" style="margin-bottom:1.2rem">Обратная сторона той же войны дронов: к середине 2026 года удары по нефтепереработке приняли системный характер и породили топливный кризис. Ниже — итоги и лента крупнейших поражений. Листайте вбок →</p>
+    <div class="grid g3">
+      <div class="card" style="text-align:center"><div class="stat__num red mono" style="font-size:2.6rem">25&nbsp;/&nbsp;37</div><p>крупных НПЗ <b>поражено</b> ударами дронов (к июню 2026); к концу мая в европейской части не осталось незатронутых.</p></div>
+      <div class="card" style="text-align:center"><div class="stat__num red mono" style="font-size:2.6rem">~40%</div><p>мощностей <b>первичной переработки</b> выведено из строя или простаивает — суммарно <b>&gt;83 млн т/год</b>.</p></div>
+      <div class="card" style="text-align:center"><div class="stat__num amber mono" style="font-size:2.6rem">4,58</div><p>млн барр./сут — переработка нефти в РФ <b>упала до минимума за 16 лет</b>.</p></div>
+    </div>
+    <div class="grid g2" style="margin-top:1rem">
+      <div class="card" style="text-align:center"><div class="stat__num amber mono" style="font-size:2.2rem">+28…34% · +43%</div><p>рост розничных цен на <b>бензин</b> и <b>дизель</b> за 2026 год (АИ-95 / ДТ).</p></div>
+      <div class="card" style="text-align:center"><div class="stat__num teal mono" style="font-size:2.2rem">25 регионов</div><p>охвачены <b>дефицитом топлива</b> и лимитами продаж на АЗС.</p></div>
+    </div>
+
+    <div class="carwrap" style="margin-top:1.4rem">
+      <button class="caro prev" data-t="carNPZ" aria-label="назад">←</button>
+      <button class="caro next" data-t="carNPZ" aria-label="вперёд">→</button>
+      <div class="car" id="carNPZ">
+        <div class="npz"><span class="npz__st stop">остановлен</span><div class="npz__d">11 фев 2026</div><div class="npz__name">Волгоградский НПЗ</div><div class="npz__loc">ЛУКОЙЛ · Волгоград</div><div class="npz__cap">~15,7<span>млн т/год переработки</span></div></div>
+        <div class="npz"><span class="npz__st stop">остановлен</span><div class="npz__d">15 мая 2026</div><div class="npz__name">Рязанский НПЗ</div><div class="npz__loc">Роснефть · Рязань</div><div class="npz__cap">~17,0<span>млн т/год переработки</span></div></div>
+        <div class="npz"><span class="npz__st hit">повреждён</span><div class="npz__d">19 мая 2026</div><div class="npz__name">Славнефть-ЯНОС</div><div class="npz__loc">Ярославль</div><div class="npz__cap">~15,0<span>млн т/год переработки</span></div></div>
+        <div class="npz"><span class="npz__st stop">остановлен</span><div class="npz__d">май 2026</div><div class="npz__name">«Кинеф»</div><div class="npz__loc">Сургутнефтегаз · Кириши, Ленобласть</div><div class="npz__cap">~20,1<span>млн т/год переработки</span></div></div>
+        <div class="npz"><span class="npz__st hit">частично</span><div class="npz__d">май 2026</div><div class="npz__name">ЛУКОЙЛ-Нижний</div><div class="npz__loc">Кстово, Нижегородская обл.</div><div class="npz__cap">~17,0<span>млн т/год переработки</span></div></div>
+        <div class="npz"><span class="npz__st hit">повреждён</span><div class="npz__d">май 2026</div><div class="npz__name">ЛУКОЙЛ-Пермь</div><div class="npz__loc">Пермнефтеоргсинтез · Пермь</div><div class="npz__cap">~13,1<span>млн т/год переработки</span></div></div>
+        <div class="npz"><span class="npz__st stop">остановлен</span><div class="npz__d">18 июн 2026</div><div class="npz__name">Московский НПЗ</div><div class="npz__loc">Газпром нефть · Москва, Капотня</div><div class="npz__cap">~12,2<span>млн т/год · не запустят до конца года</span></div></div>
+        <div class="npz"><span class="npz__st hit">10+ ударов</span><div class="npz__d">2026</div><div class="npz__name">Туапсинский НПЗ</div><div class="npz__loc">Роснефть · Туапсе</div><div class="npz__cap">~12,0<span>млн т/год переработки</span></div></div>
+        <div class="npz"><span class="npz__st hit">15+ ударов</span><div class="npz__d">2026</div><div class="npz__name">Саратовский НПЗ</div><div class="npz__loc">Роснефть · Саратов</div><div class="npz__cap">~7,0<span>млн т/год переработки</span></div></div>
+        <div class="npz"><span class="npz__st hit">10+ ударов</span><div class="npz__d">2026</div><div class="npz__name">Сызранский НПЗ</div><div class="npz__loc">Роснефть · Сызрань, Самарская обл.</div><div class="npz__cap">~8,5<span>млн т/год переработки</span></div></div>
+        <div class="npz"><span class="npz__st hit">10+ ударов</span><div class="npz__d">2026</div><div class="npz__name">Афипский НПЗ</div><div class="npz__loc">Краснодарский край</div><div class="npz__cap">~9,0<span>млн т/год переработки</span></div></div>
+        <div class="npz"><span class="npz__st hit">10+ ударов</span><div class="npz__d">2026</div><div class="npz__name">Ильский НПЗ</div><div class="npz__loc">Краснодарский край</div><div class="npz__cap">~6,6<span>млн т/год переработки</span></div></div>
+      </div>
+    </div>
+    <p class="carhint">Показатель — проектная <b>первичная переработка нефти</b>, млн т/год (открытые данные): именно её приводят источники. Прямой выпуск бензина обычно 15–30% от переработки — точной разбивки по заводам публично нет, поэтому дана проверяемая величина мощности. Список — крупнейшие подтверждённые поражения, не исчерпывающий.</p>
+    <div class="srcmini">Источники: <a class="srclink" href="https://meduza.io/feature/2026/06/29/ukrainskie-drony-atakovali-prakticheski-vse-krupneyshie-npz-v-rossii-kakie-predpriyatiya-esche-ne-okazalis-pod-udarom">Meduza — карта поражённых НПЗ (29.06.2026)</a>, <a class="srclink" href="https://www.themoscowtimes.com/2026/05/20/drone-strikes-force-central-russian-refineries-to-halt-or-cut-output-reuters-a92805">Reuters / The Moscow Times</a>, <a class="srclink" href="https://epravda.com.ua/rus/weeklycharts/udary-po-neftepererabotke-rossii-deficit-topliva-i-toplivnyy-krizis-v-2026-godu-822742/">Экономическая правда — топливный кризис 2026</a>. Мощности — проектная первичная переработка по открытым данным компаний.</div>
+  </div>
+</section>
+
+<!-- ЧТО ЭТО -->
+<section class="sec" id="chto">
+  <div class="wrap">
+    <span class="kick">Предмет</span>
+    <h2>Что такое «Радар.НФ» и кто им управляет</h2>
+    <p class="lead">Запущено в августе 2023 года Общероссийским народным фронтом (ОНФ). Это «придворный» проект: управленческая вертикаль выходит прямо в Администрацию президента.</p>
+    <div class="grid g2">
+      <div class="card">
+        <h3>Назначение (по заявлению создателей)</h3>
+        <p>Гражданин наводит телефон на дрон, выбирает тип, фотографирует, жмёт «Сообщить»; сигнал якобы идёт «ответственным сотрудникам госвласти».</p>
+        <p>Вторая, прямо декларируемая цель — <b>объединение граждан и их соучастие</b>: руководитель проекта в эфире называл целью «повышение сопричастности граждан, возрождение патриотизма», а в сюжетах звучало «объявляем мобилизацию смартфонов». <a class="srclink" href="https://onf.ru/radar">Официальный сайт: onf.ru/radar</a></p>
+      </div>
+      <div class="card">
+        <h3>Вертикаль управления</h3>
+        <div style="display:flex;gap:1rem;align-items:center;margin:.4rem 0 1rem">
+          <img class="portrait" src="kirien.png" alt="Сергей Кириенко"/>
+          <div class="figcap" style="margin:0">Сергей Кириенко — первый замглавы Администрации президента, куратор внутриполитического блока и Народного фронта.</div>
+        </div>
+        <ul class="tl">
+          <li><span class="tl__d">куратор от власти</span><b>Сергей Кириенко</b> <span class="t">— первый замглавы АП, внутриполитический блок; курирует ОНФ с 2016.</span></li>
+          <li><span class="tl__d">операционный глава</span><b>Михаил Кузнецов</b> <span class="t">— руководитель Исполкома ОНФ (с 09.03.2022); пост традиционно за выходцами из УВП АП.</span></li>
+          <li><span class="tl__d">ведёт проект</span><b>Михаил Камышев</b> <span class="t">— руководитель разработки «Радар.НФ», начальник Управления ИТ ОНФ.</span></li>
+        </ul>
+        <div class="srcmini">Госконтракта/тендера на разработку в реестрах нет; APK подписан безымянной заглушкой.</div>
+      </div>
+    </div>
+    <p class="note" style="margin-top:1rem"><b>«Федеральное» — значит общенациональное, а не московское.</b> Региональные аналоги (функция «Вижу БПЛА» в приложении «112 МО») привязаны к одной области и жителю Курска или Брянска бесполезны. Дрон на Москву летит через провинцию — поэтому инструмент обязан охватывать всю страну. Такой ровно один.</p>
+  </div>
+</section>
+
+<!-- СЛОМАЛОСЬ -->
+<section class="sec" id="slom">
+  <div class="wrap">
+    <span class="kick">Главное</span>
+    <h2>Сломалось: ~5 часов невозможно отправить сообщение</h2>
+    <p class="lead">30 июня 2026 года приложение в произвольный момент дня отказывалось принимать сигнал. Подтверждено перехватом трафика (19 из 19 попыток отклонены) и записью экрана реального устройства в 15:01 — спустя ~5 часов после первых отказов в 10:19.</p>
+    <div class="grid g2">
+      <div class="card">
+        <h3>Почему это критично</h3>
+        <p><b>Блокировка срабатывает после нескольких (≈3) сообщений в адрес ОНФ.</b> Наша позиция: несколько отчётов мы отправили (в т.ч. один с фотографией ~2,8 МБ, который не успели расшифровать), после чего наш телефон поставили в блок на неопределённый срок — на каждое следующее «Сообщить» приходит «Превышено количество отчётов». В реальной атаке дрон проходит ~2,5–3 км в минуту; пока приложение в блоке, цель уже улетела.</p>
+        <p>А снятое во время лимита фото отправить позже нельзя (из галереи приложить не даёт) — наблюдение <b>теряется безвозвратно</b>. Сервер не сообщает, когда лимит снимется. Отклоняется даже «тестовый сигнал».</p>
+      </div>
+      <div>
+        <div class="crackwrap" id="crackbox">
+          <img class="shot" src="main_app.jpg" alt="Главный экран приложения Радар.НФ"/>
+          <svg class="crack" id="crackSvg" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
+          <span class="hint" id="crackHint">кликните по экрану</span>
+        </div>
+        <div class="figcap">Главный экран «Радар.НФ»: компас, тип объекта, кнопка «Сообщить».</div>
+        <script>
+        (function(){
+          const NS="http://www.w3.org/2000/svg",box=document.getElementById('crackbox'),svg=document.getElementById('crackSvg'),hint=document.getElementById('crackHint');
+          const rnd=(a,b)=>a+Math.random()*(b-a);
+          box.addEventListener('click',e=>{
+            const r=box.getBoundingClientRect();const x=(e.clientX-r.left)/r.width*100,y=(e.clientY-r.top)/r.height*100;
+            hint.style.display='none';
+            const dot=document.createElementNS(NS,'circle');dot.setAttribute('cx',x);dot.setAttribute('cy',y);dot.setAttribute('r',1);dot.setAttribute('fill','rgba(255,255,255,.9)');svg.appendChild(dot);
+            const n=10+Math.floor(Math.random()*6),ends=[];
+            for(let i=0;i<n;i++){const ang=i/n*Math.PI*2+rnd(-.2,.2),len=rnd(16,52),segs=Math.floor(rnd(2,4));let cx=x,cy=y,d='M'+x+' '+y;
+              for(let s=0;s<segs;s++){const a=ang+rnd(-.25,.25),l=len/segs;cx+=Math.cos(a)*l;cy+=Math.sin(a)*l;d+=' L'+cx.toFixed(1)+' '+cy.toFixed(1);}
+              ends.push([cx,cy]);
+              const p=document.createElementNS(NS,'path');p.setAttribute('d',d);p.setAttribute('stroke','rgba(255,255,255,.82)');p.setAttribute('stroke-width',rnd(.22,.55));p.setAttribute('fill','none');svg.appendChild(p);
+              if(Math.random()<.6){const bx=x+Math.cos(ang)*len*.5,by=y+Math.sin(ang)*len*.5,a2=ang+rnd(.4,1),bl=rnd(5,15);const bp=document.createElementNS(NS,'path');bp.setAttribute('d','M'+bx.toFixed(1)+' '+by.toFixed(1)+' L'+(bx+Math.cos(a2)*bl).toFixed(1)+' '+(by+Math.sin(a2)*bl).toFixed(1));bp.setAttribute('stroke','rgba(255,255,255,.6)');bp.setAttribute('stroke-width',.28);bp.setAttribute('fill','none');svg.appendChild(bp);}
+            }
+            for(let k=1;k<=2;k++){let d='';for(let i=0;i<ends.length;i++){const t=k/3,ex=x+(ends[i][0]-x)*t,ey=y+(ends[i][1]-y)*t;d+=(i?'L':'M')+ex.toFixed(1)+' '+ey.toFixed(1)+' ';}d+='Z';const rp=document.createElementNS(NS,'path');rp.setAttribute('d',d);rp.setAttribute('stroke','rgba(255,255,255,.4)');rp.setAttribute('stroke-width',.28);rp.setAttribute('fill','none');svg.appendChild(rp);}
+          });
+        })();
+        </script>
+        <div class="dlg" style="margin-top:1rem"><div class="b">Превышено количество отчётов</div><div class="ok-btn">OK</div></div>
+        <div class="srcmini">Реконструкция диалога поверх реального экрана. Видеофиксация: реальное устройство, 15:01, 30.06.2026.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ПЕРЕХВАТ MITM -->
+<section class="sec" id="perehvat">
+  <div class="wrap">
+    <span class="kick">Перехват трафика · MITM</span>
+    <h2>Что показал сниффер</h2>
+    <p class="lead">Мы расшифровали обмен приложения с сервером (man-in-the-middle на собственном устройстве). Чувствительные поля <span class="redact">вымараны</span> редакцией. Ниже — три фрагмента «как есть».</p>
+    <div class="grid g3">
+      <div class="sniffer">
+        <div class="bar"><span class="d"></span> отправка отчёта<span class="lbl">rd.onf.ru</span></div>
+<pre><span class="k">PUT</span> /api/create
+authorization: Bearer eyJhbGci<span class="redact">██████████</span>
+x-client-version: 31
+{ "azimuth": <span class="redact">███</span>,
+  "coordinates": {"lat":<span class="redact">██████</span>,
+                  "lon":<span class="redact">██████</span>},
+  "type_id": 1, "is_test": false }
+<span class="red">← 400  {"error":"Превышено
+   количество отчётов","result":false}</span></pre>
+      </div>
+      <div class="sniffer">
+        <div class="bar"><span class="d y"></span> сертификаты / IP<span class="lbl">TLS</span></div>
+<pre>rd.onf.ru → 91.215.41.<span class="redact">███</span>  <span class="am">(DDoS-Guard)</span>
+issuer: GlobalSign <span class="ok">AlphaSSL CA 2025</span>
+        действует до 07.10.2026
+вшито в клиент: <span class="red">AlphaSSL CA 2023
+        ✗ просрочен 13.09.2025</span>
+set-cookie: __ddg9_=95.139.<span class="redact">██.███</span>
+        <span class="am">← реальный IP клиента</span></pre>
+      </div>
+      <div class="sniffer">
+        <div class="bar"><span class="d"></span> вход по SMS<span class="lbl">app.pomosch.onf.ru</span></div>
+<pre><span class="k">POST</span> /api/v1.0/auth/login/by-code/sms
+{ "login":"+7992<span class="redact">██████</span>",
+  "code":"<span class="redact">████</span>" }  <span class="red">← OTP открыто</span>
+scopes: <span class="am">phone, email, name,
+  birthday, region, photo, password</span>
+captcha: app.pomosch.onf.ru/captcha
+        ?sitekey=<span class="redact">████</span></pre>
+      </div>
+    </div>
+    <div class="srcmini">Перехват 30.06.2026. Показаны структура запроса, мёртвый сертификат в клиенте, утечка реального IP в cookie DDoS-Guard и SMS-код входа открытым текстом. Значения замаскированы.</div>
+  </div>
+</section>
+
+<!-- ЗАБРОШЕНО -->
+<section class="sec" id="zabr">
+  <div class="wrap">
+    <span class="kick">Доказательство</span>
+    <h2>Заброшено как минимум с сентября 2025</h2>
+    <p class="lead">Счётчик скачиваний накачивали весь 2025-й — но и он, похоже, встал: рост прекратился вместе с пиаром, последняя содержательная новость о приложении датируется ноябрём 2025. А сам клиент не развивается ещё дольше — с осени 2024.</p>
+    <div class="grid g2">
+      <div class="chartbox">
+        <h3 style="margin:.2rem 0;font-size:1rem">Скачивания при замороженном клиенте</h3>
+        <div class="cap">Пунктир (красный) — заявленный рост аудитории уже после заморозки клиента (осень 2024); справа — плато. Тыс. установок, по заявлениям ОНФ.</div>
+        <canvas id="cDl" height="240"></canvas>
+      </div>
+      <div class="card">
+        <h3>Прямые улики заморозки</h3>
+        <ul class="tl">
+          <li><span class="tl__d">осень 2024</span><b>Последняя сборка.</b> <span class="t">Тулчейн AGP 8.5.0 (середина-2024); вшитые сертификаты выпущены 08–09.2024.</span></li>
+          <li class="bad"><span class="tl__d">05.09.2025</span><b>Сервер ушёл вперёд.</b> <span class="t">Бэкенд перевыпустил сертификаты на новый удостоверяющий центр (CA 2025).</span></li>
+          <li class="bad"><span class="tl__d">13.09 / 05.10.2025</span><b>Пины в клиенте умерли.</b> <span class="t">«Вшитые» сертификаты (CA 2023) просрочились; клиент за сервером не пошёл = не пересобирался.</span></li>
+          <li><span class="tl__d">2025–2026</span><b>«Обновления» = косметика.</b> <span class="t">Перепубликации того же бинаря; версии в магазинах рассинхронены (RuStore v31 / AppGallery v30).</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ПОЧЕМУ НЕ РАБОТАЕТ — аккордеоны с доказательствами -->
+<section class="sec">
+  <div class="wrap">
+    <span class="kick">Сводка с доказательствами</span>
+    <h2>Почему это неработоспособный проект — разверни каждый пункт</h2>
+    <p class="lead">Мы не голословны. <b>Нажмите «раскрыть&nbsp;+» у любого тезиса</b> — под ним развернётся техническое или документальное доказательство с указанием метода.</p>
+    <div class="acc">
+      <details><summary><span class="x">✕</span>Не отправляет сигнал — «Превышено количество отчётов» на первом нажатии<span class="cv">раскрыть +</span></summary>
+        <div class="proof">Перехват <b>19 из 19</b> запросов <span class="mono">PUT /api/create</span> за 10:19–10:37 вернули <span class="mono">{"error":"Превышено количество отчётов","result":false}</span>; видеофиксация реального устройства в 15:01 — тот же отказ. То есть блок держался как минимум ~5 часов — после нескольких успешных отправок сообщений в ОНФ (включая отчёт с фото ~2,8 МБ).<span class="ev">метод: MITM-расшифровка + запись экрана, 30.06.2026</span></div></details>
+      <details><summary><span class="x">✕</span>Лимит держится часами и не сообщает, когда снимется<span class="cv">раскрыть +</span></summary>
+        <div class="proof">В HTTP-ответе нет заголовка <span class="mono">Retry-After</span> и тела с временем сброса — пользователь не знает, когда снова можно слать. Отклоняется и <span class="mono">is_test:true</span>.<span class="ev">метод: разбор заголовков ответа сервера</span></div></details>
+      <details><summary><span class="x">✕</span>Не слышит — звук дрона записать не может в принципе<span class="cv">раскрыть +</span></summary>
+        <div class="proof">В манифесте APK <b>отсутствует разрешение</b> <span class="mono">RECORD_AUDIO</span> (и <span class="mono">CAMERA</span>; медиа — только <span class="mono">READ_MEDIA_IMAGES</span>). Акустическая сигнатура — самый информативный признак дрона — отброшена by design. И вот что показательно: за <b>два с лишним года</b> разработки дойти умом до акустики было бы более чем вероятно — «Герань»/«шахед» с бензомотором слышен за километры, а классификатор звука работает нейросетью прямо на телефоне. Этого так и не сделали — что само по себе говорит о глубине доработки.<span class="ev">метод: статический разбор AndroidManifest.xml</span></div></details>
+      <details><summary><span class="x">✕</span>Данных не хватает для ПВО — только направление, без расстояния и высоты<span class="cv">раскрыть +</span></summary>
+        <div class="proof">Расшифрованный протокол <span class="mono">/api/create</span> содержит 6 полей: азимут, координаты наблюдателя, время, тип, флаг теста, метаданные телефона. Нет ни дальности, ни высоты, ни скорости. Один пеленг — это луч, а не точка; трёхмерный трек построить нельзя.<span class="ev">метод: MITM-расшифровка тела запроса</span></div></details>
+      <details><summary><span class="x">✕</span>«Вшитый» сертификат мёртв — защита фактически отключена<span class="cv">раскрыть +</span></summary>
+        <div class="proof">Конкретика, чтобы не быть голословными. Вшиты два leaf-сертификата издателя <b>GlobalSign GCC R6 AlphaSSL CA 2023</b>:
+          <span class="ev">• CN=*.onf.ru — выпущен 12.08.2024, истёк <b>13.09.2025</b>, SHA-256 E2:59:23…<br>• CN=app.pomosch.onf.ru — выпущен 03.09.2024, истёк <b>05.10.2025</b>, SHA-256 4E:5A:20…</span>
+          Живой сервер сейчас отдаёт <b>GlobalSign GCC R6 AlphaSSL CA 2025</b> (rd.onf.ru, действует до 07.10.2026, SHA-256 AD:AC:5D:CE:E8:E1:BA:C0:80:20:18:64:D0:49:C3:30:18:65:63:…). Расхождение на целое поколение УЦ при живом сервере = клиент не пересобирался. Работает лишь потому, что пиннинг не enforced (фоллбэк на системное доверие).<span class="ev">метод: извлечение сертов из APK + openssl s_client + crt.sh</span></div></details>
+      <details><summary><span class="x">✕</span>Сбой GPS: виснет на «Определении координат», координаты скачут на 10+ км<span class="cv">раскрыть +</span></summary>
+        <div class="proof">В перехвате координаты в 5 отчётах за 17 секунд «прыгают» на 12–13 км:
+          <span class="ev">#1–3  lat 54.<span class="redact">████</span>  lon 38.<span class="redact">████</span><br>#4    lat 54.<span class="redact">████</span>  lon 38.<span class="redact">████</span>   Δ ≈ 12,5 км<br>#5    lat 54.<span class="redact">████</span>  lon 38.<span class="redact">████</span>   Δ ≈ 13 км</span>
+          Это не движение, а нестабильность GPS. Разработчик в ответах на отзывы признаёт: при подавлении GPS приложение «не будет работать», а ручной выбор точки на карте — «в работе» (и в бинаре его нет).<span class="ev">метод: MITM-расшифровка тел /api/create + отзывы RuStore + разбор кода</span></div></details>
+      <details><summary><span class="x">✕</span>Фото только «вживую» — но зачем тогда доступ к галерее?<span class="cv">раскрыть +</span></summary>
+        <div class="proof">Камышев в эфире прямо объясняет, что фото принимается только <b>снятое в моменте</b>, а не из галереи: <i>«многие спрашивают, почему нельзя из галереи прикрепить фотографию — говорим, это дополнительная защита, чтобы мы понимали, что сигнал там, где вы увидели, и там же зафиксировали; пусть и даже чёрное небо»</i>. То есть кадр, снятый во время лимита приложения (он сохраняется в галерею устройства), к моменту сброса отправить уже нельзя — приложение не примет его из галереи, и наблюдение теряется. И само фото ни на что не влияет («хоть ночное небо»).
+          <span class="ev">⚠ нестыковка: при этом приложение ЗАПРАШИВАЕТ доступ к вашим изображениям — READ_MEDIA_IMAGES + READ_EXTERNAL_STORAGE. Зачем доступ к галерее, если прикреплять из неё запрещено? Штатное объяснение — библиотеке-фотопикеру нужно хранилище для сохранения снятого кадра; но для приложения, которое демонстративно «не берёт из галереи», запрос на чтение всех фото выглядит избыточным и требует отдельного объяснения.</span>
+          <span class="ev">метод: интервью + разбор кода (ESAF ImagePicker) + манифест + Q&A в RuStore</span></div></details>
+      <details><summary><span class="x">✕</span>Своих предупреждений не делает — пересылает чужие оповещения МЧС<span class="cv">раскрыть +</span></summary>
+        <div class="proof">Эндпоинт <span class="mono">/api/notification/list</span> отдаёт дословные РСЧС-алерты («ОПАСНОСТЬ АТАКИ БПЛА… оставайтесь дома»), то есть ретрансляцию системы МЧС, а не собственную детекцию. А сама система МЧС/РСЧС оповещает с <b>систематическим опозданием</b> — то есть приложение наследует чужую несвоевременность:
+          <span class="ev">• Оренбургская обл.: опасность объявлена в 6:14, СМС пришло в 7:05; отбой в 9:36 — а оповещение об отбое в 13:13 (orenday.ru).<br>• Тульская обл.: оповещения опаздывают «от получаса», отбой — «около двух часов» (АиФ-Тула).<br>• Губернатор Ленобласти А. Дрозденко публично объяснял задержки СМС об угрозе БПЛА (15.04.2026).</span>
+          То есть «уведомительная» часть приложения не быстрее официальной — и так же опаздывает.<span class="ev">метод: MITM-расшифровка ответа сервера + публикации СМИ</span></div></details>
+      <details><summary><span class="x">✕</span>Не знает нынешних дронов — каталог из 6 старых моделей<span class="cv">раскрыть +</span></summary>
+        <div class="proof">Обучающий каталог распознавания — <b>6 моделей</b>, и все разведывательные самолётного типа (ЛЕЛЕКА-100, FLY-EYE, PD-1/2, ФУРИЯ, ВАЛЬКИРИЯ, SPARROW). Для сравнения: классификатор БпЛА ВСУ насчитывает <b>87+ моделей</b> (март 2024, и список постоянно растёт) — FPV-камикадзе, барражирующие боеприпасы, дальнобойные ударные (UJ-22, «Лютый», «Бобёр»), мультироторы. Ни одного ударного/камикадзе/дальнобойного — то есть ни одного класса, что реально угрожает глубинке РФ, — в каталоге приложения нет. 6 из 87+, заморожен вместе с бинарём 2 года назад.<span class="ev">метод: разбор ресурсов APK + классификатор ВСУ (БПЛА Информ / Lostarmour)</span></div></details>
+      <details><summary><span class="x">✕</span>«Работает при отключениях» — на словах<span class="cv">раскрыть +</span></summary>
+        <div class="proof">В «белый список» Минцифры внесён лишь 23.04.2026 — спустя ~1,5 года после начала отключений мобильного интернета при атаках. Отправка к тому же зависит от сторонней капчи Yandex, отдельное попадание которой в список не подтверждено. <b>Поэтому внесение серверов ОНФ в белые списки при невнесённой капче Yandex фактически может блокировать работу приложения</b> — вероятно, ещё один признак непоследовательной разработки.<span class="ev">метод: открытые публикации Минцифры + перехват зависимостей</span></div></details>
+      <details><summary><span class="x">✕</span>Само отсылает к 112 — работает телефон, а не оно<span class="cv">раскрыть +</span></summary>
+        <div class="proof">Описание приложения требует: «после того как сообщили в приложении, обязательно сделайте звонок в 112». То есть «умный» канал сам признаёт основным голосовой звонок.<span class="ev">метод: официальное описание в RuStore / памятки</span></div></details>
+      <details><summary><span class="x">✕</span>Каталог категорий шире авиаугроз<span class="cv">раскрыть +</span></summary>
+        <div class="proof">В перехвате виден справочник категорий, который сервер отдаёт приложению для отправки отчёта: помимо профильных (<span class="mono">Беспилотник, Ракета, Взрыв, Обломок БПЛА, Запуски квадрокоптеров</span>) в нём есть и пункты, не относящиеся к ПВО. Для «противодронового» инструмента набор категорий заметно шире заявленного назначения.<span class="ev">метод: MITM-разбор ответа сервера, 30.06.2026</span></div></details>
+    </div>
+    <div class="figrow card" style="margin-top:1.8rem">
+      <img class="shot" src="drones.jpg" alt="Каталог распознавания БПЛА в приложении"/>
+      <div><h3 style="margin:0 0 .5rem">Каталог распознавания — 6 моделей против 87+</h3><p>Программа учит пользователя распознавать модели «по силуэту». Но каталог содержит лишь <b>6 моделей</b> разведывательного типа (ЛЕЛЕКА-100, FLY-EYE, PD-1/2, ФУРИЯ…) — это <b>несоответствие угрозам 2026 года</b>: у ВСУ 87+ моделей, включая ударные, FPV и дальнобойные, которых в каталоге нет вовсе.</p><div class="figcap">Скриншот экрана «Как распознать БПЛА» в приложении.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- РАСХОЖДЕНИЯ КАМЫШЕВА -->
+<section class="sec">
+  <div class="wrap">
+    <img class="kam-bg" src="kamishev.jpg" alt="Михаил Камышев"/>
+    <span class="kick">Расхождения</span>
+    <h2>Слова руководителя проекта против фактов</h2>
+    <p class="lead">Повторный разбор интервью (эфир <a class="srclink" href="https://smotrim.ru/video/2702838">«Вечер Z» на smotrim.ru</a>, <b>23 октября 2023 года</b>) и публичных заявлений Михаила Камышева выявил больше нестыковок, чем казалось.</p>
+    <table class="tbl">
+      <thead><tr><th>Заявление</th><th>Что на самом деле</th></tr></thead>
+      <tbody>
+        <tr><td><b>«Сигнал за секунду поступает, происходит реакция»</b></td><td>Отправка блокируется рейт-лимитом на <b>часы</b> (зафиксировано ~5 ч); «реакция» — мягкая атрибуция «помогли», не мгновенная.</td></tr>
+        <tr><td><b>«Любой житель в два клика сообщит»</b></td><td>Сначала регистрация по номеру, онбординг, настройка, ожидание GPS, капча и рейт-лимит. Не «два клика».</td></tr>
+        <tr><td><b>«После настройки можно даже выключить — она в боевом режиме»</b></td><td>Отзывы: «уведомления больше не приходят, стало бесполезным»; при глушении GPS — виснет. «Боевой режим» не подтверждается.</td></tr>
+        <tr><td><b>«Распространяем по всей территории, но больше всего — у линии фронта»</b> (2024)</td><td>Позже сами заявляют: <b>лидер по установкам — Москва и МО</b> (446 тыс. — <a class="srclink" href="https://www.kommersant.ru/doc/7940969">Коммерсантъ/ТАСС, 04.08.2025</a>). «У фронта» не сходится с «лидер — Москва».</td></tr>
+        <tr><td><b>«Apple удалил нас на этапе проверки — не успели выложиться»</b> (окт.2023)</td><td>Значит продукт «Радар.НФ» <b>не прошёл ревью Apple</b>. Позже (ноя 2025) в App Store появляется «Гражданская позиция» — справочник ЧС, изданный физлицом <b>Ion Kurtia</b>, bundle <span class="mono">md.people.position</span> (зона <b>.md — Молдова</b>). Технически: аккаунт Apple Developer привязан к лицу и юрисдикции; подсанкционный ОНФ под своим именем выложиться не может — отсюда аккаунт физлица в третьей стране. И «прокладку» сделали безобидным справочником, чтобы пройти модерацию.</td></tr>
+        <tr><td><b>«Разработано совместно с Минобороны»</b></td><td>Госконтракта/тендера на разработку в реестрах нет. APK подписан самоподписанной заглушкой: <span class="mono">CN=gia, OU=gia, O=gia</span>, серийник 816858182, действует 2022→2047, SHA-256 fdbd20a16444f03ad6…be31a. Заявление не подтверждается.</td></tr>
+        <tr><td><b>Сигналов: «30 тыс.» → «23 тыс.» → «30 тыс.»</b></td><td>Это <b>накопленное</b> с запуска число поданных сигналов в разных публикациях: июль 2025 — «более 30 тыс.», октябрь 2025 — «более 23 тыс.», ноябрь 2025 — снова «более 30 тыс.». По нашему мнению, накопительный счётчик может только расти — падение с 30 до 23 тыс. за три месяца для реального журнала <b>физически невозможно</b>. Значит это не реестр, а оценки «на глаз».</td></tr>
+        <tr><td><b>«Сбито более 500 / 1000 БПЛА»</b></td><td>Ступени 100→250→500→«1000», всегда «<b>помогли</b> сбить», а не «обнаружили». Непроверяемо.</td></tr>
+        <tr><td><b>«Доступно в Google Play»</b> (2024)</td><td>Удалено 03.10.2024 (санкции США). Формулировка устарела и вводит в заблуждение.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- КАК ПРЕЗЕНТОВАЛИ — ЦИТАТНИК -->
+<section class="sec" id="smi">
+  <div class="wrap">
+    <span class="kick">Как его презентовали — а теперь тишина</span>
+    <h2>Цитатник: что обещали о приложении</h2>
+    <p class="lead">Продвижение было массовым. Ниже — как «Радар.НФ» подавали публике. Листайте стрелками →</p>
+    <div class="carwrap">
+      <button class="caro prev" data-t="carPR" aria-label="назад">←</button>
+      <button class="caro next" data-t="carPR" aria-label="вперёд">→</button>
+      <div class="car" id="carPR">
+        <div class="quote"><div class="q">Единственное в России мобильное приложение, позволяющее сообщить об увиденных беспилотниках, ракетах, взрывах и деятельности ДРГ</div><div class="who">onf.ru/radar<span>самоописание проекта</span></div></div>
+        <div class="quote"><div class="q">Россияне помогают сбивать дроны ВСУ с помощью приложения «Радар.НФ»</div><div class="who">Известия · 23.11.2023<span>федеральное СМИ</span></div></div>
+        <div class="quote"><div class="q">С лета 2023 года «Радар.НФ» помогло сбить более 100 беспилотников</div><div class="who">ТАСС · 18.06.2024<span>федеральное агентство</span></div></div>
+        <div class="quote"><div class="q">Приложение передаёт данные в дежурные центры ПВО; эффективность выше при массовом использовании</div><div class="who">Госуслуги · 21.01.2025<span>госпортал</span></div></div>
+        <div class="quote"><div class="q">Помочь силам ПВО в защите неба может каждый — с помощью приложения «Радар.НФ»</div><div class="who">Первый канал · 23.06.2025<span>федеральное ТВ</span></div></div>
+        <div class="quote"><div class="q">«Радар.НФ» интегрировали в комплекс «Титан-Контроль» — цифровой щит на 3000+ объектов РЖД</div><div class="who">РАПСИ · 23.06.2025<span>правовое агентство</span></div></div>
+        <div class="quote"><div class="q">По словам разработчика, благодаря приложению сбито более 500 беспилотников</div><div class="who">РИА Новости · 06.07.2025<span>федеральное агентство</span></div></div>
+        <div class="quote"><div class="q">Приложение скачали более 1,5 млн человек; данные передаются госструктурам</div><div class="who">Коммерсантъ · 04.08.2025<span>деловое СМИ</span></div></div>
+        <div class="quote"><div class="q">Приложение «Радар.НФ» достигло почти 2 миллионов скачиваний</div><div class="who">РАПСИ · 30.10.2025<span>правовое агентство</span></div></div>
+        <div class="quote"><div class="q">«Радар.НФ» внесён в «белый список» Минцифры — доступен при ограничениях интернета</div><div class="who">Фонтанка · 23.04.2026<span>последняя заметная веха</span></div></div>
+      </div>
+    </div>
+    <p class="carhint">↑ И на этом — фактически всё. За весь 2026 год единственная заметная веха о приложении — внесение в «белый список» (апрель); ни одной новости о развитии больше не было, лишь повторяющиеся сводки «помог сбить» в канале ОНФ. При этом замены нет: оно по-прежнему единственное в своём роде.</p>
+  </div>
+</section>
+
+<!-- НЕТ ОТЧЁТНОСТИ -->
+<section class="sec" id="otchet">
+  <div class="wrap">
+    <span class="kick">Отчётность</span>
+    <h2>Системной отчётности о работе приложения не существует</h2>
+    <p class="lead">У «оборонного» по заявке инструмента <b>нет ни ежедневной, ни еженедельной, ни месячной, ни квартальной, ни даже годовой</b> регулярной отчётности с методикой и верифицируемыми числами. Есть только разрозненные, несистемные заявления в СМИ по инфоповодам — с противоречивыми цифрами. Вот они целиком:</p>
+    <table class="tbl">
+      <thead><tr><th>Дата</th><th>Разовое заявление в СМИ</th></tr></thead>
+      <tbody>
+        <tr><td class="dt">сен 2023</td><td>«120 тыс. установок; помогли сбить 2 БПЛА над Курском» — <a class="srclink" href="https://vz.ru/news/2023/9/28/1232555.html">ВЗГЛЯД, 28.09.2023</a></td></tr>
+        <tr><td class="dt">18.06.2024</td><td>«с лета 2023 помогло сбить более 100 БПЛА» — <a class="srclink" href="https://tass.ru/obschestvo/21127639">ТАСС</a></td></tr>
+        <tr><td class="dt">06.07.2025</td><td>«более 500 сбитых; ~1,5 млн скачиваний; ~30 тыс. сигналов» — <a class="srclink" href="https://ria.ru/20250706/bespilotniki-2027490680.html">РИА Новости</a></td></tr>
+        <tr><td class="dt">04.08.2025</td><td>«более 1,5 млн скачиваний» — <a class="srclink" href="https://www.kommersant.ru/doc/7940969">Коммерсантъ</a></td></tr>
+        <tr><td class="dt">30.10.2025</td><td>«почти 2 млн скачиваний» — <a class="srclink" href="https://www.rapsinews.ru/peoples_front_news/20251030/311298762.html">РАПСИ</a></td></tr>
+        <tr><td class="dt">23.04.2026</td><td>«внесён в белый список Минцифры» — <a class="srclink" href="https://www.fontanka.ru/2026/04/23/76382496/">Фонтанка</a></td></tr>
+        <tr><td class="dt">18.06.2026</td><td>«помог спецслужбам сбить БПЛА» (последняя сводка) — <a class="srclink" href="https://onf.ru/news/tags/radarnf">канал ОНФ</a></td></tr>
+      </tbody>
+    </table>
+    <p class="srcmini">Ни одного периодического, системного отчёта за ~3 года. Числа в этих заявлениях между собой не сходятся (см. раздел расхождений). Для инструмента «государственной важности» это аномалия.</p>
+  </div>
+</section>
+
+<!-- БЕЛЫЙ СПИСОК — ВЫДЕЛЕННЫЙ ВЫВОД -->
+<section class="sec">
+  <div class="wrap">
+    <span class="kick">Доступность · ключевой вывод</span>
+    <h2>Белый список: ~полтора года вне доступа при отключениях</h2>
+    <div class="bigblock">
+      <div class="h">~1,5 года</div>
+      <p><b>«Экстренное» приложение было недоступно ровно в те минуты, для которых создано — когда дроны и ракеты уже летели людям над головой.</b> Почему — ниже.</p>
+    </div>
+    <div class="grid g2" style="margin-top:1.2rem">
+      <div class="card">
+        <h3>Как это работает</h3>
+        <p>Во время атак БПЛА власти <b>отключают мобильный интернет</b> в регионе (мера против наведения дронов). При этом работают только ресурсы из «белого списка» Минцифры.</p>
+        <p>То есть отключение интернета и появление дрона — это <b>один и тот же момент</b>. Если приложения нет в списке — оно мертво именно тогда, когда нужно.</p>
+      </div>
+      <div class="card">
+        <ul class="tl">
+          <li class="bad"><span class="tl__d">2024</span><b>Отключения интернета при атаках идут,</b> <span class="t">а «Радар.НФ» режется вместе со всем «не-белым».</span></li>
+          <li><span class="tl__d">сентябрь 2025</span><b>Появился режим «белых списков».</b> <span class="t">«Радара» в нём ещё нет.</span></li>
+          <li><span class="tl__d">23.04.2026</span><b>ОНФ внесён (7-я волна).</b> <span class="t">С опозданием; отправка всё равно зависит от не-вайтлистнутой капчи Yandex.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- УКРАИНА VS РОССИЯ -->
+<section class="sec" id="cmp">
+  <div class="wrap">
+    <span class="kick">Сравнение</span>
+    <h2>Как у соседа работает «народный сенсор» — и как у нас</h2>
+    <p class="lead">Идея, когда тысячи людей становятся «глазами и ушами» ПВО, рабочая — но только при замкнутой петле, скорости и плотности. Украинский «єППО» это показывает. Российский «Радар.НФ» заявляет массовость, но петля разомкнута, а клиент заморожен.</p>
+    <div class="cmp">
+      <div class="col ua">
+        <h3><span class="flag ua"></span> «єППО» · Украина</h3>
+        <ul>
+          <li><b>Активные пользователи</b>~200 000 (и 600 000+ загрузок, ноя 2024)</li>
+          <li><b>Звук</b><span class="ok">учитывается</span> — «вижу <i>или</i> слышу» большой красной кнопкой</li>
+          <li><b>Куда идёт сигнал</b>на закрытую военную карту + мобильные огневые группы</li>
+          <li><b>Петля реакции</b><span class="ok">замкнута, секунды</span></li>
+          <li><b>Состояние</b><span class="ok">развивается</span> · в App Store и Google Play</li>
+        </ul>
+      </div>
+      <div class="col ru">
+        <h3><span class="flag ru"></span> «Радар.НФ» · Россия</h3>
+        <ul>
+          <li><b>Установки</b>заявлено 1,5–2 млн — но это аудитория <span class="bad">замороженного</span> клиента</li>
+          <li><b>Звук</b><span class="bad">не учитывается</span> — микрофона нет; «сфотографируйте чёрную точку»</li>
+          <li><b>Куда идёт сигнал</b>«в госслужбы» — атрибуция мягкая («помогли»)</li>
+          <li><b>Петля реакции</b><span class="bad">разомкнута</span>; рейт-лимит блокирует отправку</li>
+          <li><b>Состояние</b><span class="bad">заброшен с осени 2024</span> · нет Google Play, нет реальной iOS</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note" style="margin-top:1.2rem">
+      <b>Стыдное положение: в стране нет даже простого ИИ-агрегатора данных о дронах.</b> В эпоху, когда нейросеть классифицирует дрон по звуку и изображению прямо на телефоне, автоматически берёт геолокацию и сводит наблюдения в трек, в России де-факто единственный надёжный канал — <b>голосовой звонок в 112</b>. Никакой публичной системы, собирающей гражданские сигналы о дронах в живую картину, нет. На фоне доступных технологий это технологический регресс — витрина «цифрового щита» возвращает человека к голосовому звонку.
+    </div>
+  </div>
+</section>
+
+<!-- 112 КАРУСЕЛЬ ЦИТАТ -->
+<section class="sec" id="112">
+  <div class="wrap">
+    <span class="kick">Обоснование · официальные рекомендации</span>
+    <h2>«Увидел дрон — звони 112»: говорят сами власти</h2>
+    <p class="lead">Что де-факто работающий канал — это телефон, видно по тому, что именно к 112 отсылают все официальные памятки. Прокрутите вбок →</p>
+    <div class="carwrap">
+      <button class="caro prev" data-t="car112" aria-label="назад">←</button>
+      <button class="caro next" data-t="car112" aria-label="вперёд">→</button>
+    <div class="car" id="car112">
+      <div class="quote"><div class="q">Если заметили беспилотник — сообщите по номеру 112, указав адрес с привязкой к местности, как он себя ведёт, как выглядит, есть ли огонёк и на какой высоте</div><div class="who">Инструкция ФСБ России<span>что делать, если увидел беспилотник</span></div></div>
+      <div class="quote"><div class="q">Глава МЧС России дал россиянам совет на случай атак дронов: обеспечить укрытие и немедленно сообщить экстренным службам</div><div class="who">Александр Куренков, глава МЧС · май 2025<span>РБК / МК</span></div></div>
+      <div class="quote"><div class="q">Беспилотник нельзя трогать, категорически нельзя снимать видео; необходимо сообщить по номеру 112</div><div class="who">МЧС России<span>памятка населению</span></div></div>
+      <div class="quote"><div class="q">При обнаружении БПЛА незамедлительно звоните по номеру 112, сохраняйте спокойствие, найдите укрытие</div><div class="who">Региональные памятки антитеррора<span>муниципальные власти</span></div></div>
+      <div class="quote"><div class="q">После того как вы сообщили об объекте в приложении, обязательно сделайте звонок в оперативные службы по номеру 112</div><div class="who">Описание «Радар.НФ» в RuStore<span>само приложение отсылает к 112</span></div></div>
+    </div>
+    </div>
+    <p class="carhint">Вывод: даже «умное» приложение в собственной инструкции признаёт основным каналом голосовой звонок. Это и есть «средние века» на фоне доступного ИИ.</p>
+    <div class="opinion" style="margin-top:1.4rem">
+      <span class="who">Мнение редакции · ne_cybersec</span>
+      <p style="margin-top:.5rem">Нас удивляет, что в современную эпоху программирования для создания работающей площадки нужны незначительные деньги — посильные даже небольшой компании, не говоря о государстве, которое каждый день страдает от налётов БПЛА. Технологический и финансовый барьер тут минимален; отсутствие рабочего инструмента объясняется не нехваткой средств, а отношением.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ПРОВИНЦИЯ ЗАЩИЩАЕТ МОСКВУ -->
+<section class="sec">
+  <div class="wrap">
+    <span class="kick">Мнение редакции · почему это важно для всей страны</span>
+    <h2>Как житель провинции может защитить и Москву, и весь тыл</h2>
+    <p class="lead">Это расследование — не только про столицу. Дальнобойные цели идут вглубь России над многими населёнными областями и подолгу остаются незамеченными. Свежий пример: крылатые ракеты <b>«Фламинго»</b> поражали предприятия в <b>Чебоксарах</b> (05.05.2026) и <b>Волгограде</b> (27.06.2026) — это удары в глубокий тыл, и путь к ним лежит над регионами, где живут миллионы. Каждый их житель потенциально первым видит или <b>слышит</b> цель и может дать ПВО решающие минуты — но только если инструмент работает и охватывает всю страну.</p>
+    <div class="grid g3">
+      <div class="card"><div class="stat__num teal mono" style="font-size:2.2rem">~7 млн</div><p>жителей только в шести областях юго-западного «коридора» (Белгородская, Курская, Брянская, Орловская, Калужская, Тульская) — и десятки миллионов на маршрутах вглубь (юг, Поволжье).</p></div>
+      <div class="card"><div class="stat__num teal mono" style="font-size:2.2rem">100–3000 км</div><p>глубина подлёта — от приграничья до Чебоксар и Волгограда. Это <b>минуты и часы</b> форы для ПВО, если сигнал пройдёт.</p></div>
+      <div class="card"><div class="stat__num teal mono" style="font-size:2.2rem">1 житель</div><p>достаточно одного внимательного человека на маршруте, чтобы зафиксировать пролёт раньше радара по низкой цели.</p></div>
+    </div>
+    <p class="srcmini">Население — Росстат (01.01.2025): Тульская 1,46 млн, Калужская 1,06 млн; Белгородская ~1,5, Брянская ~1,14, Курская ~1,07, Орловская ~0,69 млн. Удары «Фламинго»: Чебоксары (05.05.2026), Волгоград «Титан» (27.06.2026). Привязку конкретно к Воронежской области строго не подтвердили — приводим подтверждённые случаи. Оценка потенциала распределённого наблюдения — мнение редакции.</p>
+  </div>
+</section>
+
+<!-- МНЕНИЕ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="opinion">
+      <span class="who">Мнение · @ne_cybersec</span>
+      <h2 style="margin:.4rem 0 .8rem;font-size:clamp(1.4rem,3.4vw,2.1rem)">Громкая витрина при сломанной сути</h2>
+      <p>Для «народного сенсора» рост числа участников — это и есть продукт, и медийная составляющая здесь оправдана — ровно настолько, насколько за ней стоит работающий инструмент. У «Радара» вышло иначе: реклама громко звучала в 2024–2025, а к 2026-му сошла на нет — при так и не заработавшей, замороженной основе. В итоге PR не построил заявленные цели (локализация дронов и доверие гражданина к государству), а подточил их — надул счётчик сенсоров, которые не <i>стреляют</i>, и громко обещал то, что на глазах не работает.</p>
+      <p style="margin-top:1rem">Отдельно. На федеральных каналах России обычно не публикуют сведения о прилётах по территории страны — у многих это вызывает недоумение, и люди уходят за информацией в альтернативные источники. При этом именно на федеральном эфире <b>можно было бы</b> продвигать продукты, где гражданин личным участием обеспечивает безопасность страны. Вместо этого, к примеру, на «Россия 24» каждый час крутят ролики о «месте России в разных рейтингах» — на наш взгляд, малозначимые в текущих условиях. Это эфирное время можно было бы отдать рекламе <b>работающего</b> приложения, которое реально снижает опасность для гражданского населения и строит мост доверия между государством и гражданами.</p>
+      <p style="margin-top:1rem">И ещё один узел, который многое объясняет. Из-за блокировок у большинства активных пользователей сегодня стоит <b>VPN</b>, а весь курс выстраивался под мессенджер <b>MAX</b> (предустановка, белый список) и «суверенный интернет». За этим внутриполитическим курсом — и за самим Народным фронтом — стоит <b>один и тот же блок Администрации президента</b> (куратор — С. Кириенко). Возникает двойной парадокс: с одной стороны, блокировками граждан загнали в тень (VPN) и растратили их доверие к государству; с другой — из-за тех же блокировок и удушения Telegram сейчас затруднительно даже написать в ОНФ через его же Telegram-бот «Кибердружина».</p>
+      <div class="honest"><b>Честно оговоримся:</b> утверждения промаркированы по надёжности — факт / вывод / оценка. «Разработано с Минобороны» и трактовка App Store как «молдавской прокладки» — наши обоснованные выводы, а не документ с печатью. Оценочные суждения (про эфир и потенциал провинции) — позиция редакции, и мы это обозначаем.</div>
+    </div>
+    <div class="figrow card" style="margin-top:1rem">
+      <img class="shot" src="onf_screan_without_max.png" alt="Блок ссылок на сайте Радар.НФ — без MAX"/>
+      <div><h3 style="margin:0 0 .5rem">На сайте нет MAX — только Telegram</h3><p>Показательная мелочь: будь проект живым, ссылку на Telegram-бот на сайте «Радар.НФ» давно <b>заменили бы на MAX</b> — или хотя бы добавили MAX. Этого нет: к собственной госэкосистеме проект так и не подключили.</p><div class="figcap">Блок «скачать с сайта» на onf.ru/radar: RuStore · App Store · AppGallery · Telegram. MAX отсутствует.</div></div>
+    </div>
+    <div class="verdict">
+      <span class="kick">Главный вывод</span>
+      <h2>Единственное общенациональное приложение, которым гражданин РФ может сообщить о БПЛА для его уничтожения, — заброшено.</h2>
+      <p>Клиент не развивается с осени 2024, «вшитые» сертификаты мертвы с осени 2025, а в произвольный момент дня приложение отказывает в отправке (на 30.06.2026 — ~5 часов подряд). Его перестали и продвигать. <b>Замены нет</b> — это подтверждают и поиск в магазине, и даже ответ ИИ Google.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ПРИЗЫВ -->
+<section class="sec" id="prizyv">
+  <div class="wrap">
+    <div class="bigblock" style="border-color:var(--c-teal);background:linear-gradient(120deg,color-mix(in oklch,var(--c-teal) 12%,transparent),transparent)">
+      <div class="h" style="color:var(--c-teal);font-size:clamp(1.5rem,4.5vw,2.4rem)">Распространите это сообщение</div>
+      <p>Вопрос острейший: речь о безопасности гражданского населения, о жизнях людей и <b>детей</b>. Если материал кажется вам важным — <b>перешлите его</b> близким, в свои чаты и каналы. Чем больше людей увидит, тем выше шанс, что на проблему обратят внимание.</p>
+      <p style="margin-top:.8rem"><b>Напишите нам.</b> Если у вас есть факты, скриншоты, опыт использования приложения или замечания — <b>пришлите обратную связь</b>. Это поможет нам глубже исследовать вопрос и работать на снижение жертв среди мирных жителей и детей.</p>
+      <div class="grid g2" style="margin-top:1.4rem">
+        <a class="cta" href="https://t.me/ne_cybersec"><span class="logo"></span><div><b style="color:var(--ink)">Подписаться на @ne_cybersec</b><div style="font-size:.84rem;color:var(--ink-3)">канал расследований в Telegram</div></div><span class="arrow">Подписаться →</span></a>
+        <a class="cta" href="https://t.me/ne_cybersec?direct"><span class="logo"></span><div><b style="color:var(--ink)">Написать нам — обратная связь</b><div style="font-size:.84rem;color:var(--ink-3)">факты · скриншоты · замечания</div></div><span class="arrow">Написать →</span></a>
+      </div>
+      <div class="share" id="share">
+        <div class="share__lbl">Поделиться в один клик:</div>
+        <div class="share__row">
+          <a class="sh sh--tg" data-sh="tg" href="#" target="_blank" rel="noopener" aria-label="Telegram"><span class="sh__i">✈</span>Telegram</a>
+          <a class="sh sh--wa" data-sh="wa" href="#" target="_blank" rel="noopener" aria-label="WhatsApp"><span class="sh__i">✆</span>WhatsApp</a>
+          <a class="sh sh--vk" data-sh="vk" href="#" target="_blank" rel="noopener" aria-label="ВКонтакте"><span class="sh__i">В</span>ВКонтакте</a>
+          <a class="sh sh--x" data-sh="x" href="#" target="_blank" rel="noopener" aria-label="X (Twitter)"><span class="sh__i">𝕏</span>X</a>
+          <a class="sh sh--ok" data-sh="ok" href="#" target="_blank" rel="noopener" aria-label="Одноклассники"><span class="sh__i">OK</span>Одноклассники</a>
+          <button class="sh sh--copy" id="sh-copy" type="button" aria-label="Скопировать ссылку"><span class="sh__i">⧉</span><span id="sh-copy-t">Копировать ссылку</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- МЕТОДЫ -->
+<section class="sec" id="metody">
+  <div class="wrap">
+    <span class="kick">Прозрачность</span>
+    <h2>Наши методы поиска и подтверждения</h2>
+    <div class="facts">
+      <div class="fact"><h3>Статика</h3><p>Разбор APK: разрешения, вшитые сертификаты и их срок, подпись, тулчейн (AGP/git), эндпоинты и строки кода.</p></div>
+      <div class="fact"><h3>Динамика (MITM)</h3><p>Перехват трафика на реальном устройстве: протокол отправки, поведение рейт-лимита, состав токена, координаты.</p></div>
+      <div class="fact"><h3>Инфраструктура</h3><p>openssl (с контролем подмены сертификата прокси), Certificate Transparency, DNS/DoH, WHOIS/RDAP.</p></div>
+      <div class="fact"><h3>Дистрибуция</h3><p>RuStore, AppGallery, служебный API Apple, архив Wayback, urlscan.io.</p></div>
+      <div class="fact"><h3>Открытые данные</h3><p>Офлайн-расшифровка видео, веерный веб-поиск по СМИ, реестры юрлиц, статистика Росстата.</p></div>
+      <div class="fact"><h3>Самопроверка</h3><p>Разделение «факт / вывод / оценка»; опровержение собственных гипотез; ничего не выдаём за факт без первоисточника.</p></div>
+    </div>
+
+    <h3 style="margin:2rem 0 .4rem;font-size:1.2rem">Технические средства — подробно</h3>
+    <p class="lead" style="margin-bottom:1rem">Чтобы заглянуть внутрь приложения и его обмена с сервером, мы прошли полный цикл реверс-инжиниринга на собственном устройстве. Ключевые инструменты и шаги:</p>
+    <div class="grid g2">
+      <div class="sniffer">
+        <div class="bar"><span class="d g"></span> распаковка и патч APK<span class="lbl">apktool · apksigner</span></div>
+<pre><span class="k">apktool</span> d radar31.apk        <span class="ev"># декод манифеста/ресурсов</span>
+<span class="ev"># правим res/xml/network_security_config:</span>
+  &lt;certificates src="<span class="ok">user</span>"/&gt;   <span class="ev"># доверять нашему CA</span>
+<span class="k">apktool</span> b → <span class="k">zipalign</span> -p -f 4
+<span class="k">keytool</span> -genkey …  <span class="k">apksigner</span> sign (v2/v3)
+<span class="k">adb</span> uninstall ru.onf.rdr; adb install</pre>
+      </div>
+      <div class="sniffer">
+        <div class="bar"><span class="d y"></span> перехват трафика<span class="lbl">MITM · CA · TUN</span></div>
+<pre>MITM-прокси → LAN-режим + перехват TUN
+наш CA → системное/польз. хранилище Android
+MITM hostname: rd.onf.ru, app.pomosch.onf.ru
+<span class="ev"># резерв при пиннинге:</span>
+Frida / objection  android sslpinning disable</pre>
+      </div>
+      <div class="sniffer">
+        <div class="bar"><span class="d"></span> сертификаты и инфраструктура<span class="lbl">openssl · crt.sh · dns</span></div>
+<pre><span class="k">openssl</span> s_client -connect rd.onf.ru:443
+<span class="ev"># + детект подмены сертификата прокси</span>
+<span class="k">openssl</span> x509 -in res/… (leaf из APK)
+crt.sh (Certificate Transparency)
+DoH dns.google · <span class="k">whois</span> -h whois.tcinet.ru
+<span class="k">nmap</span> --script ssl-cert</pre>
+      </div>
+      <div class="sniffer">
+        <div class="bar"><span class="d g"></span> идентичность, магазины, контент<span class="lbl">статика · OSINT</span></div>
+<pre><span class="k">apksigner</span> --print-certs  → CN=gia (заглушка)
+META-INF: AGP 8.5.0, git b36fc595
+strings classes*.dex → эндпоинты, ключи
+itunes.apple.com/lookup · urlscan.io
+Wayback CDX (web.archive.org)
+whisper large-v3-turbo <span class="ev"># офлайн-расшифровка видео</span></pre>
+      </div>
+    </div>
+    <p class="srcmini">Для воспроизводимости собран собственный скрипт-разведчик <span class="mono">radar_recon.sh</span> (серты · CT · DNS · WHOIS · API · статика APK · магазины · Wayback) с автодетектом контаминации прокси. Все артефакты (APK, дампы перехвата, сертификаты, расшифровки) сохранены и доступны для перепроверки. Хэш разобранного бинаря <span class="mono">radar31.apk</span>: <b>MD5</b> 14e848685ac7bb2aef2fc37939e7d68b · <b>SHA-256</b> 56e0711c35fe213c8ad686e54309c49bf4f6bdc2f38fe93f1601c78be30af1b6.</p>
+  </div>
+</section>
+
+<!-- БОЛЬШОЙ УКАЗАТЕЛЬ ИСТОЧНИКОВ -->
+<section class="sec" id="sources">
+  <div class="wrap">
+    <span class="kick">Указатель источников</span>
+    <h2>Всё, чем мы пользовались</h2>
+    <p class="lead">Полный предметный перечень. Технические артефакты (APK, перехваты, сертификаты, расшифровки) хранятся отдельно и доступны для перепроверки.</p>
+    <div class="srcidx">
+      <div class="cat"><h4>Официальные ресурсы проекта</h4><ol>
+        <li><a href="https://onf.ru/radar">onf.ru/radar</a> — страница приложения</li>
+        <li><a href="https://www.rustore.ru/catalog/app/ru.onf.rdr">RuStore · ru.onf.rdr</a></li>
+        <li><a href="https://appgallery.huawei.ru/app/C109424409">Huawei AppGallery · C109424409</a></li>
+        <li>Telegram-бот «Кибердружина» (t.me/KiberDruzhina_bot)</li>
+        <li>App Store · id6752865298 («Гражданская позиция», Ion Kurtia)</li>
+      </ol></div>
+      <div class="cat"><h4>Острота угрозы — БПЛА 2025–2026</h4><ol>
+        <li><a href="https://ria.ru/20260626/bpla-2101213910.html">РИА Новости — атака 26.06.2026 (660)</a></li>
+        <li><a href="https://ura.news/news/1053104570">URA.news — 39 тыс. дронов за 2026</a></li>
+        <li>Crimea-news — 39 тыс. над 51 регионом</li>
+        <li><a href="https://tass.ru/proisshestviya/27769327">ТАСС — атака на Москву 16.06.2026</a></li>
+        <li><a href="https://neva.today/news/2026/5/13/744640">Neva.today — 286 дронов 13.05.2026</a></li>
+        <li><a href="https://novayagazeta.eu/articles/2025/12/22/voina-na-karte-rossii">Новая газета Европа — карта войны 2025</a></li>
+        <li><a href="https://ru.themoscowtimes.com/2026/06/26/peregruzili-pvo-iyun-stal-rekordnim-mesyatsem-po-chislu-dalnoboinih-udarov-po-rossii-a199274">The Moscow Times — рекордный июнь 2026</a></li>
+      </ol></div>
+      <div class="cat"><h4>Рекомендации «звонить 112»</h4><ol>
+        <li><a href="https://66.ru/news/society/275779/">66.ru — инструкция ФСБ</a></li>
+        <li><a href="https://www.rbc.ru/rbcfreenews/683951779a7947f85bc7ab8d">РБК — совет главы МЧС</a></li>
+        <li><a href="https://www.mk.ru/politics/2025/05/30/glava-mchs-dal-rossiyanam-sovet-na-sluchay-atak-bespilotnikov.html">МК — глава МЧС, 30.05.2025</a></li>
+        <li><a href="https://mchs.gov.ru/ministerstvo/uchrezhdeniya-mchs-rossii/spasatelnye-podrazdeleniya/aviaciya/bespilotniki">МЧС России — БПЛА</a></li>
+        <li><a href="https://gogov.ru/request/bpla">gogov.ru — куда сообщать о БПЛА</a></li>
+      </ol></div>
+      <div class="cat"><h4>PR-хроника и метрики приложения</h4><ol>
+        <li><a href="https://ria.ru/20230817/prilozhenie-1890558706.html">РИА — анонс запуска (17.08.2023)</a></li>
+        <li><a href="https://iz.ru/1609782/2023-11-23/rossiiane-pomogaiut-sbivat-drony-vsu-s-pomoshchiu-prilozheniia-radarnf">Известия (23.11.2023)</a></li>
+        <li><a href="https://tass.ru/obschestvo/21127639">ТАСС — 100 БПЛА (18.06.2024)</a></li>
+        <li><a href="https://tass.ru/obschestvo/22031673">ТАСС — удаление из Google Play (03.10.2024)</a></li>
+        <li><a href="https://www.1tv.ru/news/2025-06-23/513217">Первый канал (23.06.2025)</a></li>
+        <li><a href="https://ria.ru/20250706/bespilotniki-2027490680.html">РИА — Камышев, >500 (06.07.2025)</a></li>
+        <li><a href="https://www.kommersant.ru/doc/7940969">Коммерсантъ — 1,5 млн (04.08.2025)</a></li>
+        <li><a href="https://spbdnevnik.ru/news/2025-08-05/voennyy-ekspert-ivannikov-rasskazal-chem-polezno-prilozhenie-radarnf">Петербургский дневник — эксперт Иванников</a></li>
+        <li><a href="https://www.rapsinews.ru/peoples_front_news/20251030/311298762.html">РАПСИ — почти 2 млн (30.10.2025)</a></li>
+        <li><a href="https://www.fontanka.ru/2026/04/23/76382496/">Фонтанка — белый список (23.04.2026)</a></li>
+      </ol></div>
+      <div class="cat"><h4>Белый список / отключения интернета</h4><ol>
+        <li><a href="https://xakep.ru/2026/04/24/whitelist-v7/">Хакер — 7-я волна белого списка</a></li>
+        <li><a href="https://www.interfax.ru/digital/1085608">Интерфакс — ОНФ в списке (23.04.2026)</a></li>
+        <li>CNews — «места в списке ограничены» (27.04.2026)</li>
+      </ol></div>
+      <div class="cat"><h4>Украина · єППО</h4><ol>
+        <li><a href="https://eppoua.com/">eppoua.com — официальный сайт</a></li>
+        <li><a href="https://suspilne.media/302116-ce-ne-igraska-ce-zbroa-ak-pracue-rozroblenij-odesitami-zastosunok-eppo/">Суспільне — как работает єППО</a></li>
+        <li>Вікіпедія — «єППО» (~200 тыс. активных)</li>
+      </ol></div>
+      <div class="cat"><h4>Альтернативы / уникальность</h4><ol>
+        <li>Функция «Вижу БПЛА» в приложении «112 МО» (региональное)</li>
+        <li>Google Gemini (AI-режим) — рекомендует «Радар.НФ» (скрин 30.06.2026)</li>
+        <li>Поиск RuStore по «бпла» — гражданских репортеров нет</li>
+      </ol></div>
+      <div class="cat"><h4>Технические инструменты</h4><ol>
+        <li>APK <span class="mono">ru.onf.rdr</span> v31 (статический разбор)</li>
+        <li>MITM-перехват трафика приложения, 30.06.2026</li>
+        <li>Certificate Transparency — <a href="https://crt.sh/?q=onf.ru">crt.sh</a></li>
+        <li>Wayback Machine — <a href="https://web.archive.org/web/2024*/onf.ru/radar">архив onf.ru/radar</a></li>
+        <li>iTunes Lookup API, urlscan.io, openssl, DNS/DoH, WHOIS</li>
+      </ol></div>
+      <div class="cat"><h4>Демография (мост к Москве)</h4><ol>
+        <li><a href="https://rosstat.gov.ru/folder/12781">Росстат — численность населения на 01.01.2025</a></li>
+        <li>gogov.ru/population-ru — Тульская, Калужская обл.</li>
+      </ol></div>
+      <div class="cat"><h4>Управление ОНФ</h4><ol>
+        <li><a href="https://onf.ru/about/central-executive-committee">onf.ru — Центральный исполком</a></li>
+        <li><a href="https://www.rbc.ru/politics/10/11/2016/582370c89a794703bc63b108">РБК — Кириенко куратор ОНФ</a></li>
+        <li><a href="https://www.rbc.ru/investigation/politics/10/03/2016/56e032829a79470e5a4ef173">РБК — на какие деньги живёт ОНФ</a></li>
+      </ol></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <a class="cta" href="https://t.me/ne_cybersec">
+      <span class="logo"></span>
+      <div><b style="color:var(--ink)">@ne_cybersec</b><div style="font-size:.84rem;color:var(--ink-3)">Мы защищаем традиционное образование в России с 2023 года</div></div>
+      <span class="arrow">Подписаться →</span>
+    </a>
+    <p class="foot-h" style="margin-top:1.6rem">Хэштеги</p>
+    <div class="hash">
+      <a href="https://t.me/ne_cybersec">#радарнф</a><a href="https://t.me/ne_cybersec">#радар_нф</a><a href="https://t.me/ne_cybersec">#онф</a><a href="https://t.me/ne_cybersec">#народныйфронт</a><a href="https://t.me/ne_cybersec">#бпла</a><a href="https://t.me/ne_cybersec">#дроны</a><a href="https://t.me/ne_cybersec">#беспилотники</a><a href="https://t.me/ne_cybersec">#пво</a><a href="https://t.me/ne_cybersec">#шахед</a><a href="https://t.me/ne_cybersec">#герань</a><a href="https://t.me/ne_cybersec">#112</a><a href="https://t.me/ne_cybersec">#мчс</a><a href="https://t.me/ne_cybersec">#фсб</a><a href="https://t.me/ne_cybersec">#цифроваягигиена</a><a href="https://t.me/ne_cybersec">#кибербез</a><a href="https://t.me/ne_cybersec">#infosec</a><a href="https://t.me/ne_cybersec">#osint</a><a href="https://t.me/ne_cybersec">#mitm</a><a href="https://t.me/ne_cybersec">#реверсинж</a><a href="https://t.me/ne_cybersec">#apk</a><a href="https://t.me/ne_cybersec">#android</a><a href="https://t.me/ne_cybersec">#appstore</a><a href="https://t.me/ne_cybersec">#rustore</a><a href="https://t.me/ne_cybersec">#appgallery</a><a href="https://t.me/ne_cybersec">#googleplay</a><a href="https://t.me/ne_cybersec">#белыйсписок</a><a href="https://t.me/ne_cybersec">#минцифры</a><a href="https://t.me/ne_cybersec">#отключенияинтернета</a><a href="https://t.me/ne_cybersec">#суверенныйрунет</a><a href="https://t.me/ne_cybersec">#топливныйкризис</a><a href="https://t.me/ne_cybersec">#нпз</a><a href="https://t.me/ne_cybersec">#єппо</a><a href="https://t.me/ne_cybersec">#украина</a><a href="https://t.me/ne_cybersec">#москва</a><a href="https://t.me/ne_cybersec">#белгород</a><a href="https://t.me/ne_cybersec">#ne_cybersec</a>
+    </div>
+    <p class="disc">Дисклеймер: материал основан на открытых источниках и техническом анализе общедоступного приложения, носит исследовательский и общественно-значимый характер. Утверждения промаркированы по степени надёжности (факт / вывод / оценка). Имена должностных лиц приводятся в объёме открытых публикаций. Часть 1. Свод подготовлен 30.06.2026 · @ne_cybersec.</p>
+  </div>
+</footer>
+
+<script>
+const rb=document.getElementById('readbar');
+addEventListener('scroll',()=>{const h=document.documentElement;rb.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';},{passive:true});
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* Scrollspy: подсветка активного раздела + доезд ленты меню к нему на мобильном */
+(function navSpy(){
+  const links=[...document.querySelectorAll('#topnav a')];
+  if(!links.length)return;
+  const nav=document.getElementById('topnav');
+  const secs=[...new Set(links.map(a=>a.getAttribute('href').slice(1)))].map(id=>document.getElementById(id)).filter(Boolean);
+  if(!secs.length)return;
+  function centerActive(a){
+    if(!nav||nav.scrollWidth<=nav.clientWidth+4)return;
+    const navRect=nav.getBoundingClientRect(),aRect=a.getBoundingClientRect();
+    const delta=(aRect.left-navRect.left)-(nav.clientWidth-aRect.width)/2;
+    const max=nav.scrollWidth-nav.clientWidth;
+    nav.scrollTo({left:Math.max(0,Math.min(max,nav.scrollLeft+delta)),behavior:reduceMotion?'auto':'smooth'});
+  }
+  const setActive=id=>{let act=null;links.forEach(a=>{const on=a.getAttribute('href')==='#'+id;a.classList.toggle('is-active',on);if(on)act=a;});if(act)centerActive(act);};
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)setActive(e.target.id);});},{rootMargin:'-45% 0px -50% 0px',threshold:0});
+  secs.forEach(s=>io.observe(s));
+  links.forEach(a=>a.addEventListener('click',()=>setActive(a.getAttribute('href').slice(1))));
+})();
+/* Индикатор «есть ещё разделы» в ленте меню */
+(function navCue(){
+  const wrap=document.querySelector('.topnav-wrap'),nav=document.getElementById('topnav'),cue=document.getElementById('topnav-cue');
+  if(!wrap||!nav||!cue)return;
+  function update(){wrap.setAttribute('data-more',(nav.scrollLeft+nav.clientWidth<nav.scrollWidth-4)?'true':'false');}
+  cue.addEventListener('click',()=>nav.scrollBy({left:Math.round(nav.clientWidth*0.7),behavior:'smooth'}));
+  nav.addEventListener('scroll',update,{passive:true});
+  window.addEventListener('resize',update,{passive:true});
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(update);
+  setTimeout(update,300);update();
+})();
+/* Intro: пропуск и удаление из DOM */
+(function(){
+  var intro=document.querySelector('.intro');
+  if(!intro)return;
+  if(!document.documentElement.classList.contains('intro-on')){intro.remove();return;}
+  function done(){if(intro&&intro.parentNode)intro.parentNode.removeChild(intro);}
+  var skip=intro.querySelector('.intro__skip');
+  if(skip)skip.addEventListener('click',function(){intro.classList.add('intro--skip');setTimeout(done,440);});
+  setTimeout(done,4900);
+})();
+/* Переключатель темы (день/ночь) */
+(function(){
+  var btn=document.getElementById('theme-toggle');if(!btn)return;
+  var root=document.documentElement,icon=btn.querySelector('.theme-toggle__icon');
+  function paint(t){if(t==='light')root.setAttribute('data-theme','light');else root.removeAttribute('data-theme');if(icon)icon.textContent=t==='light'?'☀':'☾';}
+  var cur=root.getAttribute('data-theme')==='light'?'light':'dark';
+  paint(cur);
+  btn.addEventListener('click',function(){
+    cur=cur==='light'?'dark':'light';paint(cur);
+    try{localStorage.setItem('nc_theme',cur);}catch(e){}
+    try{var tg=window.Telegram&&window.Telegram.WebApp;if(tg){if(cur==='light'){tg.setHeaderColor('#ffffff');tg.setBackgroundColor('#f6f7f9');}else{tg.setHeaderColor('#14161e');tg.setBackgroundColor('#13141b');}}}catch(e){}
+  });
+})();
+/* Прокрутка карусели: снимаем scroll-snap:mandatory на время (иначе он отменяет
+   программный smooth-scrollTo — стрелки «не срабатывают»), пробуем нативный smooth,
+   а через таймаут гарантированно доснапливаем точную позицию (fallback). */
+function caroScroll(c,to){
+  to=Math.max(0,Math.min(to,c.scrollWidth-c.clientWidth));
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  c.style.scrollSnapType='none';
+  try{ c.scrollTo({left:to, behavior:reduce?'auto':'smooth'}); }catch(e){ c.scrollLeft=to; }
+  clearTimeout(c._caroT);
+  c._caroT=setTimeout(function(){
+    if(Math.abs(c.scrollLeft-to)>2) c.scrollLeft=to; // если smooth не отработал (фон/старый движок)
+    c.style.scrollSnapType='';
+  }, reduce?20:600);
+}
+document.querySelectorAll('.caro').forEach(b=>b.addEventListener('click',()=>{
+  const c=document.getElementById(b.dataset.t); if(!c||!c.children.length) return;
+  const kids=[...c.children];
+  const base=kids[0].offsetLeft;
+  const stride=kids.length>1 ? Math.max(1,kids[1].offsetLeft-kids[0].offsetLeft) : kids[0].offsetWidth;
+  const perView=Math.max(1, Math.floor(c.clientWidth/stride)); // шаг = «страница» карточек
+  const cur=Math.round(c.scrollLeft/stride);
+  let idx=Math.max(0, Math.min(kids.length-1, cur+(b.classList.contains('next')?perView:-perView)));
+  caroScroll(c, kids[idx].offsetLeft-base);
+}));
+const RED='#e8604f',AMBER='#e6a83c',CYAN='#5cc2e0',MUTE='#5c6678',LINE='rgba(140,150,170,.16)',INK3='#8b97a8';
+Chart.defaults.font.family="'JetBrains Mono',monospace";Chart.defaults.font.size=11;Chart.defaults.color=INK3;
+new Chart(cDon,{type:'doughnut',data:{labels:['Атаки БПЛА (~48%)','Прочие инциденты'],datasets:[{data:[48,52],backgroundColor:[RED,'#33405266'],borderColor:'#1b2433',borderWidth:2}]},options:{cutout:'64%',plugins:{legend:{position:'bottom',labels:{boxWidth:11,padding:12,color:INK3}}}}});
+const FREEZE=4,dl=[120,300,450,530,700,785,1500,1900,2050];
+new Chart(cDl,{type:'line',data:{labels:['Сен’23','Ноя’23','Май’24','Июл’24','Окт’24','Янв’25','Авг’25','Окт’25','Июн’26'],datasets:[{data:dl,borderColor:CYAN,backgroundColor:'rgba(92,194,224,.08)',fill:true,tension:.3,pointRadius:3,pointBackgroundColor:dl.map((_,i)=>i>=FREEZE?RED:CYAN),segment:{borderColor:c=>c.p0DataIndex>=FREEZE?RED:CYAN,borderDash:c=>c.p0DataIndex>=FREEZE?[6,5]:undefined}}]},options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y+'к установок',afterLabel:c=>c.dataIndex>=FREEZE?'клиент уже заморожен':''}}},scales:{y:{ticks:{callback:v=>v+'к',color:MUTE},grid:{color:LINE}},x:{ticks:{color:MUTE},grid:{display:false}}}}});
+/* Поделиться: динамические ссылки + копирование */
+(function(){
+  var box=document.getElementById('share'); if(!box) return;
+  var url=(document.querySelector('link[rel=canonical]')||{}).href || location.href;
+  var title='«Радар.НФ» — единственное в стране и неработоспособное';
+  var text=title+'. Расследование @ne_cybersec:';
+  var U=encodeURIComponent(url), T=encodeURIComponent(text), TL=encodeURIComponent(title);
+  var links={
+    tg:'https://t.me/share/url?url='+U+'&text='+T,
+    wa:'https://api.whatsapp.com/send?text='+T+'%20'+U,
+    vk:'https://vk.com/share.php?url='+U+'&title='+TL,
+    x:'https://twitter.com/intent/tweet?url='+U+'&text='+T,
+    ok:'https://connect.ok.ru/offer?url='+U+'&title='+TL
+  };
+  box.querySelectorAll('a[data-sh]').forEach(function(a){ var k=a.getAttribute('data-sh'); if(links[k]) a.href=links[k]; });
+  var cp=document.getElementById('sh-copy'), cpt=document.getElementById('sh-copy-t');
+  if(cp) cp.addEventListener('click',function(){
+    var done=function(){ cp.classList.add('done'); if(cpt) cpt.textContent='Скопировано ✓'; setTimeout(function(){ cp.classList.remove('done'); if(cpt) cpt.textContent='Копировать ссылку'; },2200); };
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(done,function(){ prompt('Скопируйте ссылку:', url); }); }
+    else { prompt('Скопируйте ссылку:', url); }
+  });
+})();
+</script>
+</body>
+</html>
