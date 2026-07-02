@@ -324,6 +324,25 @@ section[id]{scroll-margin-top:96px}
   *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
   .tag .dot{animation:none}
 }
+/* ============================================================
+   A11Y: skip-link · видимый фокус клавиатуры · тач-таргеты · forced-colors
+   ============================================================ */
+.skip{position:fixed;top:.6rem;left:.6rem;z-index:100;transform:translateY(-180%);background:var(--surface-2);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:.7rem 1.1rem;font-weight:600;text-decoration:none;box-shadow:0 12px 30px -12px oklch(0 0 0 / .6);transition:transform .2s var(--ease-quint)}
+.skip:focus{transform:none;outline:2px solid var(--c-lime);outline-offset:2px}
+a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visible,.crackwrap:focus-visible{outline:2px solid var(--c-lime);outline-offset:2px;border-radius:8px}
+summary:focus-visible{outline-offset:-2px}
+.caro:focus-visible,.theme-toggle:focus-visible,.topnav-cue:focus-visible{outline-offset:3px}
+@media(pointer:coarse){
+  .theme-toggle{width:44px;height:44px}
+  .topnav a{padding-block:.62rem}
+  .topnav-cue{width:40px;height:40px}
+  .hash a{display:inline-block;padding:.2rem 0}
+}
+@media(forced-colors:active){
+  a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid Highlight}
+  .readbar__fill{background:Highlight}
+  .topnav a.is-active::after{background:Highlight}
+}
 
 /* ============================================================
    INTRO (проигрывается один раз за сессию; выкл. без JS / reduced-motion)
@@ -434,6 +453,7 @@ html.intro-on .intro__skip{animation:introFade .5s ease 1.4s forwards}
 </style>
 </head>
 <body>
+<a class="skip" href="#content">Перейти к содержанию</a>
 <!-- INTRO ANIMATION -->
 <div class="intro" aria-hidden="true">
   <div class="intro__brand"><span class="logo"></span>@ne_cybersec</div>
@@ -489,6 +509,7 @@ html.intro-on .intro__skip{animation:introFade .5s ease 1.4s forwards}
   <div class="readbar" aria-hidden="true"><span class="readbar__fill" id="readbar-fill"></span></div>
 </header>
 
+<main id="content">
 <div class="notice-bar"><div class="wrap"><span class="fl">⚑</span><span>Настоящее исследование предназначено к сведению <b style="color:var(--c-amber)">органов власти</b> по текущему острейшему вопросу национальной безопасности.</span></div></div>
 
 <!-- HERO -->
@@ -917,7 +938,7 @@ captcha: app.pomosch.onf.ru/captcha
           <a class="sh sh--vk" data-sh="vk" href="#" target="_blank" rel="noopener" aria-label="ВКонтакте"><span class="sh__i">В</span>ВКонтакте</a>
           <a class="sh sh--x" data-sh="x" href="#" target="_blank" rel="noopener" aria-label="X (Twitter)"><span class="sh__i">𝕏</span>X</a>
           <a class="sh sh--ok" data-sh="ok" href="#" target="_blank" rel="noopener" aria-label="Одноклассники"><span class="sh__i">OK</span>Одноклассники</a>
-          <button class="sh sh--copy" id="sh-copy" type="button" aria-label="Скопировать ссылку"><span class="sh__i">⧉</span><span id="sh-copy-t">Копировать ссылку</span></button>
+          <button class="sh sh--copy" id="sh-copy" type="button" aria-label="Скопировать ссылку"><span class="sh__i">⧉</span><span id="sh-copy-t" aria-live="polite">Копировать ссылку</span></button>
         </div>
       </div>
     </div>
@@ -1128,6 +1149,8 @@ whisper large-v3-turbo <span class="ev"># офлайн-расшифровка в
   </div>
 </section>
 
+
+</main>
 
 <!-- FOOTER -->
 <footer>
