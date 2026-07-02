@@ -49,7 +49,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap&subset=cyrillic,cyrillic-ext,latin" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root{
   --bg:oklch(0.158 0.018 264); --bg-deep:oklch(0.128 0.016 264);
@@ -129,6 +129,7 @@ h1,h2,h3{color:var(--ink);line-height:1.05;font-weight:800;letter-spacing:-0.025
 .chartbox{background:var(--bg-deep);border:1px solid var(--line-soft);border-radius:16px;padding:1.2rem}
 .chartbox .cap{font-family:var(--mono);font-size:.74rem;color:var(--ink-3);margin:.3rem 0 .8rem}
 .srcmini{font-family:var(--mono);font-size:.72rem;color:var(--ink-3);margin-top:.8rem}
+.imgpic{display:contents}
 .shot{display:block;width:100%;max-width:240px;border-radius:18px;border:1px solid var(--line);box-shadow:0 30px 80px -40px oklch(0 0 0 / .8)}
 .kam-bg{position:absolute;right:0;top:1.2rem;width:clamp(120px,22vw,210px);opacity:.22;filter:grayscale(.15) contrast(1.05);pointer-events:none;z-index:-1;border-radius:14px;-webkit-mask-image:radial-gradient(circle at 55% 40%,#000 42%,transparent 74%);mask-image:radial-gradient(circle at 55% 40%,#000 42%,transparent 74%)}
 @media(max-width:680px){.kam-bg{opacity:.13;width:120px;top:.6rem}}
@@ -542,7 +543,7 @@ html.intro-on .intro__skip{animation:introFade .5s ease 1.4s forwards}
       <div class="card">
         <h3>Вертикаль управления</h3>
         <div style="display:flex;gap:1rem;align-items:center;margin:.4rem 0 1rem">
-          <img class="portrait" src="kirien.png" alt="Сергей Кириенко"/>
+          <picture class="imgpic"><source srcset="kirien.webp" type="image/webp"><img class="portrait" src="kirien.jpg" alt="Сергей Кириенко" loading="lazy" decoding="async" width="176" height="176"/></picture>
           <div class="figcap" style="margin:0">Сергей Кириенко — первый замглавы Администрации президента, куратор внутриполитического блока и Народного фронта.</div>
         </div>
         <ul class="tl">
@@ -571,7 +572,7 @@ html.intro-on .intro__skip{animation:introFade .5s ease 1.4s forwards}
       </div>
       <div>
         <div class="crackwrap" id="crackbox">
-          <img class="shot" src="main_app.jpg" alt="Главный экран приложения Радар.НФ"/>
+          <picture class="imgpic"><source srcset="main_app.webp" type="image/webp"><img class="shot" src="main_app.jpg" alt="Главный экран приложения Радар.НФ" loading="lazy" decoding="async" width="480" height="990"/></picture>
           <svg class="crack" id="crackSvg" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
           <span class="hint" id="crackHint">кликните по экрану</span>
         </div>
@@ -712,7 +713,7 @@ captcha: app.pomosch.onf.ru/captcha
         <div class="proof">В перехвате виден справочник категорий, который сервер отдаёт приложению для отправки отчёта: помимо профильных (<span class="mono">Беспилотник, Ракета, Взрыв, Обломок БПЛА, Запуски квадрокоптеров</span>) в нём есть и пункты, не относящиеся к ПВО. Для «противодронового» инструмента набор категорий заметно шире заявленного назначения.<span class="ev">метод: MITM-разбор ответа сервера, 30.06.2026</span></div></details>
     </div>
     <div class="figrow card" style="margin-top:1.8rem">
-      <img class="shot" src="drones.jpg" alt="Каталог распознавания БПЛА в приложении"/>
+      <picture class="imgpic"><source srcset="drones.webp" type="image/webp"><img class="shot" src="drones.jpg" alt="Каталог распознавания БПЛА в приложении" loading="lazy" decoding="async" width="480" height="1093"/></picture>
       <div><h3 style="margin:0 0 .5rem">Каталог распознавания — 6 моделей против 87+</h3><p>Программа учит пользователя распознавать модели «по силуэту». Но каталог содержит лишь <b>6 моделей</b> разведывательного типа (ЛЕЛЕКА-100, FLY-EYE, PD-1/2, ФУРИЯ…) — это <b>несоответствие угрозам 2026 года</b>: у ВСУ 87+ моделей, включая ударные, FPV и дальнобойные, которых в каталоге нет вовсе.</p><div class="figcap">Скриншот экрана «Как распознать БПЛА» в приложении.</div></div>
     </div>
   </div>
@@ -721,7 +722,7 @@ captcha: app.pomosch.onf.ru/captcha
 <!-- РАСХОЖДЕНИЯ КАМЫШЕВА -->
 <section class="sec">
   <div class="wrap">
-    <img class="kam-bg" src="kamishev.jpg" alt="Михаил Камышев"/>
+    <picture class="imgpic"><source srcset="kamishev.webp" type="image/webp"><img class="kam-bg" src="kamishev.jpg" alt="Михаил Камышев" loading="lazy" decoding="async" width="440" height="293"/></picture>
     <span class="kick">Расхождения</span>
     <h2>Слова руководителя проекта против фактов</h2>
     <p class="lead">Разбор интервью (эфир <a class="srclink" href="https://smotrim.ru/video/2702838">«Вечер Z» на smotrim.ru</a>, <b>23 октября 2023 года</b>) и публичных заявлений Михаила Камышева.</p>
@@ -820,7 +821,7 @@ captcha: app.pomosch.onf.ru/captcha
 <section class="sec">
   <div class="wrap">
       <div class="figrow card">
-        <img class="shot" src="onf_screan_without_max.png" alt="Блок ссылок на сайте Радар.НФ — без MAX"/>
+        <picture class="imgpic"><source srcset="onf_screan.webp" type="image/webp"><img class="shot" src="onf_screan.jpg" alt="Блок ссылок на сайте Радар.НФ — без MAX" loading="lazy" decoding="async" width="480" height="368"/></picture>
         <div><h3 style="margin:0 0 .5rem">На сайте нет MAX — только Telegram</h3><p>Показательная мелочь: будь проект живым, ссылку на Telegram-бот на сайте «Радар.НФ» давно <b>заменили бы на MAX</b> — или хотя бы добавили MAX. Этого нет: к собственной госэкосистеме проект так и не подключили.</p><div class="figcap">Блок «скачать с сайта» на onf.ru/radar: RuStore · App Store · AppGallery · Telegram. MAX отсутствует.</div></div>
       </div>
   </div>
@@ -1257,11 +1258,16 @@ document.querySelectorAll('.caro').forEach(b=>b.addEventListener('click',()=>{
   let idx=Math.max(0, Math.min(kids.length-1, cur+(b.classList.contains('next')?perView:-perView)));
   caroScroll(c, kids[idx].offsetLeft-base);
 }));
-const RED='#e8604f',AMBER='#e6a83c',CYAN='#5cc2e0',MUTE='#5c6678',LINE='rgba(140,150,170,.16)',INK3='#8b97a8';
-Chart.defaults.font.family="'JetBrains Mono',monospace";Chart.defaults.font.size=11;Chart.defaults.color=INK3;
-new Chart(cDon,{type:'doughnut',data:{labels:['Атаки БПЛА (~48%)','Прочие инциденты'],datasets:[{data:[48,52],backgroundColor:[RED,'#33405266'],borderColor:'#1b2433',borderWidth:2}]},options:{cutout:'64%',plugins:{legend:{position:'bottom',labels:{boxWidth:11,padding:12,color:INK3}}}}});
-const FREEZE=4,dl=[120,300,450,530,700,785,1500,1900,2050];
-new Chart(cDl,{type:'line',data:{labels:['Сен’23','Ноя’23','Май’24','Июл’24','Окт’24','Янв’25','Авг’25','Окт’25','Июн’26'],datasets:[{data:dl,borderColor:CYAN,backgroundColor:'rgba(92,194,224,.08)',fill:true,tension:.3,pointRadius:3,pointBackgroundColor:dl.map((_,i)=>i>=FREEZE?RED:CYAN),segment:{borderColor:c=>c.p0DataIndex>=FREEZE?RED:CYAN,borderDash:c=>c.p0DataIndex>=FREEZE?[6,5]:undefined}}]},options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y+'к установок',afterLabel:c=>c.dataIndex>=FREEZE?'клиент уже заморожен':''}}},scales:{y:{ticks:{callback:v=>v+'к',color:MUTE},grid:{color:LINE}},x:{ticks:{color:MUTE},grid:{display:false}}}}});
+/* Chart.js загружается с defer (не блокирует рендер); инициализируем, когда он готов */
+function initCharts(){
+  if(!window.Chart){ return setTimeout(initCharts,60); }
+  const RED='#e8604f',AMBER='#e6a83c',CYAN='#5cc2e0',MUTE='#5c6678',LINE='rgba(140,150,170,.16)',INK3='#8b97a8';
+  Chart.defaults.font.family="'JetBrains Mono',monospace";Chart.defaults.font.size=11;Chart.defaults.color=INK3;
+  new Chart(cDon,{type:'doughnut',data:{labels:['Атаки БПЛА (~48%)','Прочие инциденты'],datasets:[{data:[48,52],backgroundColor:[RED,'#33405266'],borderColor:'#1b2433',borderWidth:2}]},options:{cutout:'64%',plugins:{legend:{position:'bottom',labels:{boxWidth:11,padding:12,color:INK3}}}}});
+  const FREEZE=4,dl=[120,300,450,530,700,785,1500,1900,2050];
+  new Chart(cDl,{type:'line',data:{labels:['Сен’23','Ноя’23','Май’24','Июл’24','Окт’24','Янв’25','Авг’25','Окт’25','Июн’26'],datasets:[{data:dl,borderColor:CYAN,backgroundColor:'rgba(92,194,224,.08)',fill:true,tension:.3,pointRadius:3,pointBackgroundColor:dl.map((_,i)=>i>=FREEZE?RED:CYAN),segment:{borderColor:c=>c.p0DataIndex>=FREEZE?RED:CYAN,borderDash:c=>c.p0DataIndex>=FREEZE?[6,5]:undefined}}]},options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y+'к установок',afterLabel:c=>c.dataIndex>=FREEZE?'клиент уже заморожен':''}}},scales:{y:{ticks:{callback:v=>v+'к',color:MUTE},grid:{color:LINE}},x:{ticks:{color:MUTE},grid:{display:false}}}}});
+}
+initCharts();
 /* Поделиться: динамические ссылки + копирование */
 (function(){
   var box=document.getElementById('share'); if(!box) return;
